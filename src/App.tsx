@@ -1,0 +1,49 @@
+import { use, useEffect } from "react";
+import "./App.css";
+import { useAuthStore } from "./store/authStore";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { LoginForm } from "./components/Login";
+import { SignupForm } from "./components/Signup";
+import { ProtectedRoute } from "./components/layout/ProtectedRoute";
+import { Dashboard } from "./components/Dashboard";
+import { ProductsPage } from "./pages/ProductPages";
+
+function App() {
+  const { initializeAuth, isInitialized, isAuthenticated } = useAuthStore();
+
+  useEffect(() => {
+    if (!isInitialized) {
+      initializeAuth();
+    }
+  }, [isAuthenticated]);
+
+  return (
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/signup" element={<SignupForm />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/products"
+            element={
+              <ProtectedRoute>
+                <ProductsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/" element={<LoginForm />} />
+        </Routes>
+      </BrowserRouter>
+    </>
+  );
+}
+
+export default App;
