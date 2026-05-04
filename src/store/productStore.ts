@@ -10,10 +10,10 @@ interface ProductStore {
 
   // Actions
   fetchProducts: () => Promise<void>;
-  fetchProduct: (id: number) => Promise<Product | null>;
+  fetchProduct: (id: string) => Promise<Product | null>;
   createProduct: (product: Omit<Product, "id">) => Promise<Product | null>;
-  updateProduct: (id: number, product: Partial<Omit<Product, "id">>) => Promise<Product | null>;
-  deleteProduct: (id: number) => Promise<boolean>;
+  updateProduct: (id: string, product: Partial<Omit<Product, "id">>) => Promise<Product | null>;
+  deleteProduct: (id: string) => Promise<boolean>;
   clearError: () => void;
 
   setShowCreateModal: (show: boolean) => void;
@@ -73,7 +73,7 @@ export const useProductStore = create<ProductStore>((set, get) => ({
     }
   },
 
-  fetchProduct: async (id: number) => {
+  fetchProduct: async (id: string) => {
     set({ loading: true, error: null });
     try {
       const product = await productAPI.getProduct(id);

@@ -12,6 +12,7 @@ export const productAPI = {
           price
           description
           image
+          quantity
         }
       }
     `;
@@ -21,15 +22,16 @@ export const productAPI = {
   },
 
   // Get single product
-  getProduct: async (id: number): Promise<Product> => {
+  getProduct: async (id: string): Promise<Product> => {
     const query = `
-      query GetProduct($id: Float!) {
+      query GetProduct($id: String!) {
         product(id: $id) {
           id
           name
           price
           description
           image
+          quantity
         }
       }
     `;
@@ -41,13 +43,14 @@ export const productAPI = {
   // Create product
   createProduct: async (input: CreateProductInput): Promise<Product> => {
     const mutation = `
-  mutation CreateProduct($name: String!, $price: Float!, $description: String!, $image: String!) {
-    createProduct(name: $name, price: $price, description: $description, image: $image) {
+  mutation CreateProduct($name: String!, $price: Float!, $description: String!, $image: String!, $quantity: Int!) {
+    createProduct(name: $name, price: $price, description: $description, image: $image, quantity: $quantity) {
       id
       name
       price
       description
       image
+      quantity
     }
   }
 `;
@@ -58,34 +61,42 @@ export const productAPI = {
       price: input.price,
       description: input.description,
       image: input.imageUrl,
+      quantity: input.quantity,
     });
     return response.createProduct;
   },
   // Update product
   updateProduct: async (input: UpdateProductInput): Promise<Product> => {
     const mutation = `
-      mutation UpdateProduct($id:Int!, $input: UpdateProductInput!) {
+      mutation UpdateProduct($id:String!, $input: UpdateProductInput!) {
         updateProduct(id:$id, input: $input) {
           id
           name
           price
           description
           image
+          quantity
         }
       }
     `;
 
     const response = await graphqlClient.request<{ updateProduct: Product }>(mutation, {
       id: input.id,
-      input: { name: input.name, price: input.price, description: input.description, image: input.imageUrl },
+      input: {
+        name: input.name,
+        price: input.price,
+        description: input.description,
+        image: input.imageUrl,
+        quantity: input.quantity,
+      },
     });
     return response.updateProduct;
   },
 
   // Delete product
-  deleteProduct: async (id: number): Promise<boolean> => {
+  deleteProduct: async (id: string): Promise<boolean> => {
     const mutation = `
-      mutation DeleteProduct($id: Int!) {
+      mutation DeleteProduct($id: String!) {
         deleteProduct(id: $id)
       }
     `;

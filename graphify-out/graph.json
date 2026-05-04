@@ -1,0 +1,505 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "eslint.config.js",
+      "file_type": "code",
+      "source_file": "eslint.config.js",
+      "source_location": "L1",
+      "id": "eslint_config_js",
+      "community": 10,
+      "norm_label": "eslint.config.js"
+    },
+    {
+      "label": "vite.config.ts",
+      "file_type": "code",
+      "source_file": "vite.config.ts",
+      "source_location": "L1",
+      "id": "vite_config_ts",
+      "community": 11,
+      "norm_label": "vite.config.ts"
+    },
+    {
+      "label": "App.tsx",
+      "file_type": "code",
+      "source_file": "src/App.tsx",
+      "source_location": "L1",
+      "id": "src_app_tsx",
+      "community": 1,
+      "norm_label": "app.tsx"
+    },
+    {
+      "label": "App()",
+      "file_type": "code",
+      "source_file": "src/App.tsx",
+      "source_location": "L11",
+      "id": "src_app_app",
+      "community": 1,
+      "norm_label": "app()"
+    },
+    {
+      "label": "main.tsx",
+      "file_type": "code",
+      "source_file": "src/main.tsx",
+      "source_location": "L1",
+      "id": "src_main_tsx",
+      "community": 1,
+      "norm_label": "main.tsx"
+    },
+    {
+      "label": "Authtypes.ts",
+      "file_type": "code",
+      "source_file": "src/types/Authtypes.ts",
+      "source_location": "L1",
+      "id": "src_types_authtypes_ts",
+      "community": 12,
+      "norm_label": "authtypes.ts"
+    },
+    {
+      "label": "product.ts",
+      "file_type": "code",
+      "source_file": "src/types/product.ts",
+      "source_location": "L1",
+      "id": "src_types_product_ts",
+      "community": 13,
+      "norm_label": "product.ts"
+    },
+    {
+      "label": "Ordertypes.ts",
+      "file_type": "code",
+      "source_file": "src/types/Ordertypes.ts",
+      "source_location": "L1",
+      "id": "src_types_ordertypes_ts",
+      "community": 14,
+      "norm_label": "ordertypes.ts"
+    },
+    {
+      "label": "fileUpload.ts",
+      "file_type": "code",
+      "source_file": "src/utils/fileUpload.ts",
+      "source_location": "L1",
+      "id": "src_utils_fileupload_ts",
+      "community": 0,
+      "norm_label": "fileupload.ts"
+    },
+    {
+      "label": "uploadImageToCloudinary()",
+      "file_type": "code",
+      "source_file": "src/utils/fileUpload.ts",
+      "source_location": "L23",
+      "id": "utils_fileupload_uploadimagetocloudinary",
+      "community": 2,
+      "norm_label": "uploadimagetocloudinary()"
+    },
+    {
+      "label": "uploadMultipleImagesToCloudinary()",
+      "file_type": "code",
+      "source_file": "src/utils/fileUpload.ts",
+      "source_location": "L90",
+      "id": "utils_fileupload_uploadmultipleimagestocloudinary",
+      "community": 0,
+      "norm_label": "uploadmultipleimagestocloudinary()"
+    },
+    {
+      "label": "getOptimizedCloudinaryUrl()",
+      "file_type": "code",
+      "source_file": "src/utils/fileUpload.ts",
+      "source_location": "L104",
+      "id": "utils_fileupload_getoptimizedcloudinaryurl",
+      "community": 0,
+      "norm_label": "getoptimizedcloudinaryurl()"
+    },
+    {
+      "label": "deleteImageFromCloudinary()",
+      "file_type": "code",
+      "source_file": "src/utils/fileUpload.ts",
+      "source_location": "L140",
+      "id": "utils_fileupload_deleteimagefromcloudinary",
+      "community": 0,
+      "norm_label": "deleteimagefromcloudinary()"
+    },
+    {
+      "label": "Login.tsx",
+      "file_type": "code",
+      "source_file": "src/components/Login.tsx",
+      "source_location": "L1",
+      "id": "src_components_login_tsx",
+      "community": 3,
+      "norm_label": "login.tsx"
+    },
+    {
+      "label": "LoginForm()",
+      "file_type": "code",
+      "source_file": "src/components/Login.tsx",
+      "source_location": "L6",
+      "id": "components_login_loginform",
+      "community": 3,
+      "norm_label": "loginform()"
+    },
+    {
+      "label": "Dashboard.tsx",
+      "file_type": "code",
+      "source_file": "src/components/Dashboard.tsx",
+      "source_location": "L1",
+      "id": "src_components_dashboard_tsx",
+      "community": 4,
+      "norm_label": "dashboard.tsx"
+    },
+    {
+      "label": "Dashboard()",
+      "file_type": "code",
+      "source_file": "src/components/Dashboard.tsx",
+      "source_location": "L4",
+      "id": "components_dashboard_dashboard",
+      "community": 4,
+      "norm_label": "dashboard()"
+    },
+    {
+      "label": "Signup.tsx",
+      "file_type": "code",
+      "source_file": "src/components/Signup.tsx",
+      "source_location": "L1",
+      "id": "src_components_signup_tsx",
+      "community": 5,
+      "norm_label": "signup.tsx"
+    },
+    {
+      "label": "SignupForm()",
+      "file_type": "code",
+      "source_file": "src/components/Signup.tsx",
+      "source_location": "L5",
+      "id": "components_signup_signupform",
+      "community": 5,
+      "norm_label": "signupform()"
+    },
+    {
+      "label": "ProductList.tsx",
+      "file_type": "code",
+      "source_file": "src/components/products/ProductList.tsx",
+      "source_location": "L1",
+      "id": "src_components_products_productlist_tsx",
+      "community": 15,
+      "norm_label": "productlist.tsx"
+    },
+    {
+      "label": "ProductCard.tsx",
+      "file_type": "code",
+      "source_file": "src/components/products/ProductCard.tsx",
+      "source_location": "L1",
+      "id": "src_components_products_productcard_tsx",
+      "community": 6,
+      "norm_label": "productcard.tsx"
+    },
+    {
+      "label": "ProductCard()",
+      "file_type": "code",
+      "source_file": "src/components/products/ProductCard.tsx",
+      "source_location": "L11",
+      "id": "products_productcard_productcard",
+      "community": 6,
+      "norm_label": "productcard()"
+    },
+    {
+      "label": "ProductForm.tsx",
+      "file_type": "code",
+      "source_file": "src/components/products/ProductForm.tsx",
+      "source_location": "L1",
+      "id": "src_components_products_productform_tsx",
+      "community": 2,
+      "norm_label": "productform.tsx"
+    },
+    {
+      "label": "handleSubmit()",
+      "file_type": "code",
+      "source_file": "src/components/products/ProductForm.tsx",
+      "source_location": "L24",
+      "id": "products_productform_handlesubmit",
+      "community": 2,
+      "norm_label": "handlesubmit()"
+    },
+    {
+      "label": "ProtectedRoute.tsx",
+      "file_type": "code",
+      "source_file": "src/components/layout/ProtectedRoute.tsx",
+      "source_location": "L1",
+      "id": "src_components_layout_protectedroute_tsx",
+      "community": 7,
+      "norm_label": "protectedroute.tsx"
+    },
+    {
+      "label": "ProtectedRoute()",
+      "file_type": "code",
+      "source_file": "src/components/layout/ProtectedRoute.tsx",
+      "source_location": "L9",
+      "id": "layout_protectedroute_protectedroute",
+      "community": 7,
+      "norm_label": "protectedroute()"
+    },
+    {
+      "label": "ProductPages.tsx",
+      "file_type": "code",
+      "source_file": "src/pages/ProductPages.tsx",
+      "source_location": "L1",
+      "id": "src_pages_productpages_tsx",
+      "community": 8,
+      "norm_label": "productpages.tsx"
+    },
+    {
+      "label": "handleCreateProduct()",
+      "file_type": "code",
+      "source_file": "src/pages/ProductPages.tsx",
+      "source_location": "L25",
+      "id": "pages_productpages_handlecreateproduct",
+      "community": 8,
+      "norm_label": "handlecreateproduct()"
+    },
+    {
+      "label": "orderApi.ts",
+      "file_type": "code",
+      "source_file": "src/services/orderApi.ts",
+      "source_location": "L1",
+      "id": "src_services_orderapi_ts",
+      "community": 16,
+      "norm_label": "orderapi.ts"
+    },
+    {
+      "label": "authApi.ts",
+      "file_type": "code",
+      "source_file": "src/services/authApi.ts",
+      "source_location": "L1",
+      "id": "src_services_authapi_ts",
+      "community": 17,
+      "norm_label": "authapi.ts"
+    },
+    {
+      "label": "productApi.ts",
+      "file_type": "code",
+      "source_file": "src/services/productApi.ts",
+      "source_location": "L1",
+      "id": "src_services_productapi_ts",
+      "community": 18,
+      "norm_label": "productapi.ts"
+    },
+    {
+      "label": "graphql.ts",
+      "file_type": "code",
+      "source_file": "src/services/graphql.ts",
+      "source_location": "L1",
+      "id": "src_services_graphql_ts",
+      "community": 9,
+      "norm_label": "graphql.ts"
+    },
+    {
+      "label": "setAuthToken()",
+      "file_type": "code",
+      "source_file": "src/services/graphql.ts",
+      "source_location": "L7",
+      "id": "services_graphql_setauthtoken",
+      "community": 9,
+      "norm_label": "setauthtoken()"
+    },
+    {
+      "label": "authStore.ts",
+      "file_type": "code",
+      "source_file": "src/store/authStore.ts",
+      "source_location": "L1",
+      "id": "src_store_authstore_ts",
+      "community": 19,
+      "norm_label": "authstore.ts"
+    },
+    {
+      "label": "productStore.ts",
+      "file_type": "code",
+      "source_file": "src/store/productStore.ts",
+      "source_location": "L1",
+      "id": "src_store_productstore_ts",
+      "community": 20,
+      "norm_label": "productstore.ts"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_src": "src_app_tsx",
+      "_tgt": "src_app_app",
+      "source": "src_app_tsx",
+      "target": "src_app_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_src": "src_main_tsx",
+      "_tgt": "src_app_tsx",
+      "source": "src_app_tsx",
+      "target": "src_main_tsx",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/fileUpload.ts",
+      "source_location": "L23",
+      "weight": 1.0,
+      "_src": "src_utils_fileupload_ts",
+      "_tgt": "utils_fileupload_uploadimagetocloudinary",
+      "source": "src_utils_fileupload_ts",
+      "target": "utils_fileupload_uploadimagetocloudinary",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/fileUpload.ts",
+      "source_location": "L90",
+      "weight": 1.0,
+      "_src": "src_utils_fileupload_ts",
+      "_tgt": "utils_fileupload_uploadmultipleimagestocloudinary",
+      "source": "src_utils_fileupload_ts",
+      "target": "utils_fileupload_uploadmultipleimagestocloudinary",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/fileUpload.ts",
+      "source_location": "L104",
+      "weight": 1.0,
+      "_src": "src_utils_fileupload_ts",
+      "_tgt": "utils_fileupload_getoptimizedcloudinaryurl",
+      "source": "src_utils_fileupload_ts",
+      "target": "utils_fileupload_getoptimizedcloudinaryurl",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/fileUpload.ts",
+      "source_location": "L140",
+      "weight": 1.0,
+      "_src": "src_utils_fileupload_ts",
+      "_tgt": "utils_fileupload_deleteimagefromcloudinary",
+      "source": "src_utils_fileupload_ts",
+      "target": "utils_fileupload_deleteimagefromcloudinary",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/components/products/ProductForm.tsx",
+      "source_location": "L52",
+      "weight": 1.0,
+      "_src": "products_productform_handlesubmit",
+      "_tgt": "utils_fileupload_uploadimagetocloudinary",
+      "source": "utils_fileupload_uploadimagetocloudinary",
+      "target": "products_productform_handlesubmit"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Login.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_src": "src_components_login_tsx",
+      "_tgt": "components_login_loginform",
+      "source": "src_components_login_tsx",
+      "target": "components_login_loginform",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Dashboard.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_src": "src_components_dashboard_tsx",
+      "_tgt": "components_dashboard_dashboard",
+      "source": "src_components_dashboard_tsx",
+      "target": "components_dashboard_dashboard",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Signup.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_src": "src_components_signup_tsx",
+      "_tgt": "components_signup_signupform",
+      "source": "src_components_signup_tsx",
+      "target": "components_signup_signupform",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/products/ProductCard.tsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_src": "src_components_products_productcard_tsx",
+      "_tgt": "products_productcard_productcard",
+      "source": "src_components_products_productcard_tsx",
+      "target": "products_productcard_productcard",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/products/ProductForm.tsx",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_src": "src_components_products_productform_tsx",
+      "_tgt": "products_productform_handlesubmit",
+      "source": "src_components_products_productform_tsx",
+      "target": "products_productform_handlesubmit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/layout/ProtectedRoute.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_src": "src_components_layout_protectedroute_tsx",
+      "_tgt": "layout_protectedroute_protectedroute",
+      "source": "src_components_layout_protectedroute_tsx",
+      "target": "layout_protectedroute_protectedroute",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ProductPages.tsx",
+      "source_location": "L25",
+      "weight": 1.0,
+      "_src": "src_pages_productpages_tsx",
+      "_tgt": "pages_productpages_handlecreateproduct",
+      "source": "src_pages_productpages_tsx",
+      "target": "pages_productpages_handlecreateproduct",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/services/graphql.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_src": "src_services_graphql_ts",
+      "_tgt": "services_graphql_setauthtoken",
+      "source": "src_services_graphql_ts",
+      "target": "services_graphql_setauthtoken",
+      "confidence_score": 1.0
+    }
+  ],
+  "hyperedges": []
+}

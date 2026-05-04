@@ -5,16 +5,23 @@ import { uploadImageToCloudinary } from "../../utils/fileUpload";
 
 interface ProductFormProps {
   initialData?: Partial<Product>;
-  onSubmit: (data: { name: string; price: number; description: string; imageUrl: string }) => Promise<void>;
+  onSubmit: (data: {
+    name: string;
+    price: number;
+    description: string;
+    imageUrl: string;
+    quantity: number;
+  }) => Promise<void>;
   onCancel: () => void;
 }
 
-export const ProductForm: React.FC<ProductFormProps> = ({ initialData, onSubmit, onCancel }) => {
+export const ProductForm = ({ initialData, onSubmit, onCancel }: ProductFormProps) => {
   const [formData, setFormData] = useState({
     name: initialData?.name || "",
     price: initialData?.price || 0,
     description: initialData?.description || "",
     imageUrl: initialData?.imageUrl || "",
+    quantity: initialData?.quantity || 0,
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -42,33 +49,31 @@ export const ProductForm: React.FC<ProductFormProps> = ({ initialData, onSubmit,
       setLoading(false);
       return;
     }
-    if (!selectedFile) {
-      setError("Product image is required");
-      setLoading(false);
-      return;
-    }
-    try {
-      // Upload image to Cloudinary
-      const uploadResult = await uploadImageToCloudinary(selectedFile, {
-        cloudName: "dngpjau3d",
-        uploadPreset: "intern",
-        folder: "ecommerce",
-        maxSizeMB: 5,
-      });
 
-      if (!uploadResult.success) {
-        setError(uploadResult.error || "Image upload failed");
-        setLoading(false);
-        return;
+    try {
+      if (!formData.imageUrl) {
+        if (!selectedFile) {
+          setError("Product image is required");
+          setLoading(false);
+          return;
+        }
+        // Upload image to Cloudinary
+        const uploadResult = await uploadImageToCloudinary(selectedFile, {
+          cloudName: "dngpjau3d",
+          uploadPreset: "intern",
+          folder: "ecommerce",
+          maxSizeMB: 5,
+        });
+
+        if (!uploadResult.success) {
+          setError(uploadResult.error || "Image upload failed");
+          setLoading(false);
+          return;
+        }
+        formData.imageUrl = uploadResult.url;
       }
 
-      // Create product with the image URL
-      const productData = {
-        ...formData,
-        imageUrl: uploadResult.url,
-      };
-
-      await onSubmit(productData);
+      await onSubmit(formData);
     } catch (err: any) {
       setError(err.message || "Failed to save product");
     } finally {
@@ -78,7 +83,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ initialData, onSubmit,
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
+    <div className="bg-white rounded-lg shadow-md p-6 ">
       <h3 className="text-xl font-semibold mb-4">{initialData?.id ? "Edit Product" : "Create New Product"}</h3>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -130,6 +135,17 @@ export const ProductForm: React.FC<ProductFormProps> = ({ initialData, onSubmit,
             onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             placeholder="0.00"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Quantity *</label>
+          <input
+            type="number"
+            required
+            value={formData.quantity}
+            onChange={(e) => setFormData({ ...formData, quantity: parseInt(e.target.value) })}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            placeholder="0"
           />
         </div>
 

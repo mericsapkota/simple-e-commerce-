@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
-import { authAPI } from "../services/api";
+import { authAPI } from "../services/authApi";
 
 export const LoginForm: React.FC = () => {
-  const [formData, setFormData] = useState({ username: "", password: "" });
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -24,11 +24,14 @@ export const LoginForm: React.FC = () => {
     setError("");
 
     try {
-      const response = await authAPI.login(formData.username, formData.password);
+      const response = await authAPI.login(formData.email, formData.password);
 
       const parseToken = JSON.parse(atob(response.access_token.split(".")[1]));
 
-      login({ id: response.id, username: response.username, email: "", role: parseToken.role }, response.access_token);
+      login(
+        { id: parseToken.sub, username: parseToken.username, email: parseToken.email, role: parseToken.role },
+        response.access_token,
+      );
       navigate("/dashboard");
     } catch (err: any) {
       setError(err.response?.errors?.[0]?.message || "Login failed");
@@ -44,13 +47,13 @@ export const LoginForm: React.FC = () => {
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700">Username</label>
+              <label className="block text-sm font-medium text-gray-700">Email</label>
               <input
                 type="text"
                 required
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                value={formData.username}
-                onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               />
             </div>
             <div>

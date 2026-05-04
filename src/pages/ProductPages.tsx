@@ -22,7 +22,13 @@ export const ProductsPage: React.FC = () => {
     initializeAuth();
   }
 
-  const handleCreateProduct = async (data: { name: string; price: number; description: string; imageUrl: string }) => {
+  const handleCreateProduct = async (data: {
+    name: string;
+    price: number;
+    description: string;
+    imageUrl: string;
+    quantity: number;
+  }) => {
     const result = await createProduct(data);
     if (result) {
       setShowCreateModal(false);
@@ -36,7 +42,7 @@ export const ProductsPage: React.FC = () => {
       {/* Create Product Modal */}
       {showCreateModal && (
         <div className="fixed inset-0 w-full bg-black/80  h-svh flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6  min-w-lg mx-4 relative">
+          <div className="bg-white mt-5 rounded-lg p-6  min-w-lg mx-4 relative">
             <button
               onClick={() => setShowCreateModal(false)}
               className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"

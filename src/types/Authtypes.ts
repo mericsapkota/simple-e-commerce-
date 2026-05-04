@@ -1,8 +1,8 @@
 export interface User {
-    id: number;
-    username: string;
-    email: string;
-    role: string;
+  id: number;
+  username: string;
+  email: string;
+  role: string;
 }
 
 export interface AuthState {
@@ -13,6 +13,7 @@ export interface AuthState {
 export interface LoginResponse {
   id: number;
   username: string;
+  email: string;
   access_token: string;
 }
 export interface SignupResponse {
@@ -22,18 +23,18 @@ export interface SignupResponse {
   role: string;
 }
 
-export interface LoginCreds{
-    email:string;
-    password:string;
+export interface LoginCreds {
+  email: string;
+  password: string;
 }
-export interface RegisterCreds{
-    email:string;
-    password:string;
-    username:string;
-    role:string;
+export interface RegisterCreds {
+  email: string;
+  password: string;
+  username: string;
+  role: string;
 }
 
 export interface JWTPayload {
-    userId: number;
-    role: string;
+  userId: number;
+  role: string;
 }

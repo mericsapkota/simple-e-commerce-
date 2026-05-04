@@ -2,19 +2,18 @@ import { graphqlClient } from "./graphql";
 import type { LoginResponse, SignupResponse, User } from "../types/Authtypes";
 
 export const authAPI = {
-  login: async (username: string, password: string): Promise<LoginResponse> => {
+  login: async (email: string, password: string): Promise<LoginResponse> => {
     const query = `
       mutation login($input: LoginInput!) {
         login(input: $input) {
-          id
-          username
+         
           access_token
         }
       }
     `;
 
     const variables = {
-      input: { username, password },
+      input: { email, password },
     };
 
     const response = await graphqlClient.request<{ login: LoginResponse }>(query, variables);

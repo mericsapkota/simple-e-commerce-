@@ -2,10 +2,10 @@ import { use, useEffect } from "react";
 import "./App.css";
 import { useAuthStore } from "./store/authStore";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { LoginForm } from "./components/Login";
-import { SignupForm } from "./components/Signup";
+import { LoginForm } from "./pages/Login";
+import { SignupForm } from "./pages/Signup";
 import { ProtectedRoute } from "./components/layout/ProtectedRoute";
-import { Dashboard } from "./components/Dashboard";
+import { Dashboard } from "./pages/Dashboard";
 import { ProductsPage } from "./pages/ProductPages";
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
       initializeAuth();
     }
   }, [isAuthenticated]);
-
+  //test
   return (
     <>
       <BrowserRouter>

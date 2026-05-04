@@ -1,9 +1,10 @@
 export interface Product {
-  id: number;
+  id: string;
   name: string;
   price: number;
   description: string;
   imageUrl: string;
+  quantity: number;
 }
 
 export interface CreateProductInput {
@@ -11,12 +12,14 @@ export interface CreateProductInput {
   price: number;
   description: string;
   imageUrl: string;
+  quantity: number;
 }
 
 export interface UpdateProductInput {
-  id: number;
+  id: string;
   name?: string;
   price?: number;
   description?: string;
   imageUrl?: string;
+  quantity?: number;
 }
