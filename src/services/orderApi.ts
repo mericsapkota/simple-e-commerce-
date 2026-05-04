@@ -1,113 +1,77 @@
-// services/ordersApi.ts
-
+import { gql } from "graphql-request";
 import { graphqlClient } from "./graphql";
-import type { Order, CreateOrderInput } from "../types/Ordertypes";
+import type { CreateOrderInput, CreateOrderResponse, Order } from "../types/Ordertypes";
 
-export const ordersAPI = {
-  // Get all orders for current user
-  getUserOrders: async (): Promise<Order[]> => {
-    const query = `
-      query GetUserOrders {
-        getUserOrders {
-          id
-          order_date
-          total_amount
-          status
-          shipping_address
-          payment_method
-          created_at
-          updated_at
-          items {
-            id
-            quantity
-            price
-            subtotal
-            product_id
-            product {
-              id
-              name
-              price
-              image
-            }
-          }
-        }
+// ─── Mutations ────────────────────────────────────────────────────────────────
+
+export const CREATE_ORDER_MUTATION = gql`
+  mutation CreateOrder(
+    $user_id: ID!
+    $shipping_address: String!
+    $payment_method: String!
+    $product_id: ID!
+    $quantity: Int!
+    $price: Float!
+  ) {
+    createOrder(
+      user_id: $user_id
+      shipping_address: $shipping_address
+      payment_method: $payment_method
+      product_id: $product_id
+      quantity: $quantity
+      price: $price
+    ) {
+      id
+      user_id
+      order_date
+      total_amount
+      status
+      shipping_address
+      payment_method
+      created_at
+      updated_at
+      order_items {
+        id
+        product_id
+        quantity
+        price
+        subtotal
       }
-    `;
+    }
+  }
+`;
 
-    const response = await graphqlClient.request<{ getUserOrders: Order[] }>(query);
-    return response.getUserOrders;
-  },
+// ─── Queries ──────────────────────────────────────────────────────────────────
 
-  // Get single order by ID
-  getOrderById: async (orderId: string): Promise<Order> => {
-    const query = `
-      query GetOrder($orderId: String!) {
-        getOrder(orderId: $orderId) {
-          id
-          order_date
-          total_amount
-          status
-          shipping_address
-          payment_method
-          created_at
-          updated_at
-          items {
-            id
-            quantity
-            price
-            subtotal
-            product_id
-            product {
-              id
-              name
-              price
-              image
-            }
-          }
-        }
+export const GET_MY_ORDERS_QUERY = gql`
+  query GetMyOrders($user_id: ID!) {
+    ordersByUser(user_id: $user_id) {
+      id
+      order_date
+      total_amount
+      status
+      shipping_address
+      payment_method
+      created_at
+      order_items {
+        id
+        product_id
+        quantity
+        price
+        subtotal
       }
-    `;
+    }
+  }
+`;
 
-    const variables = { orderId };
-    const response = await graphqlClient.request<{ getOrder: Order }>(query, variables);
-    return response.getOrder;
-  },
+// ─── API Functions ────────────────────────────────────────────────────────────
 
-  // Create new order - SIMPLE VERSION
-  createOrder: async (input: CreateOrderInput): Promise<Order> => {
-    const mutation = `
-      mutation CreateOrder($input: OrderInput!) {
-        createOrder(input: $input) {
-          id
-          order_date
-          total_amount
-          status
-          shipping_address
-          payment_method
-          created_at
-        }
-      }
-    `;
+export const createOrder = async (input: CreateOrderInput): Promise<Order> => {
+  const data = await graphqlClient.request<CreateOrderResponse>(CREATE_ORDER_MUTATION, input);
+  return data.createOrder;
+};
 
-    const variables = { input };
-    const response = await graphqlClient.request<{ createOrder: Order }>(mutation, variables);
-    return response.createOrder;
-  },
-
-  // Cancel order
-  cancelOrder: async (orderId: string): Promise<Order> => {
-    const mutation = `
-      mutation CancelOrder($orderId: String!) {
-        cancelOrder(orderId: $orderId) {
-          id
-          status
-          updated_at
-        }
-      }
-    `;
-
-    const variables = { orderId };
-    const response = await graphqlClient.request<{ cancelOrder: Order }>(mutation, variables);
-    return response.cancelOrder;
-  },
+export const getMyOrders = async (user_id: string): Promise<Order[]> => {
+  const data = await graphqlClient.request<{ ordersByUser: Order[] }>(GET_MY_ORDERS_QUERY, { user_id });
+  return data.ordersByUser;
 };

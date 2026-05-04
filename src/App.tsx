@@ -1,4 +1,4 @@
-import { use, useEffect } from "react";
+import { useEffect } from "react";
 import "./App.css";
 import { useAuthStore } from "./store/authStore";
 import { BrowserRouter, Route, Routes } from "react-router-dom";

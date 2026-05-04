@@ -1,80 +1,76 @@
-// store/orderStore.ts
-
 import { create } from "zustand";
-import { ordersAPI } from "../services/orderApi";
 import type { Order, CreateOrderInput } from "../types/Ordertypes";
+import { createOrder, getMyOrders } from "../services/orderApi";
 
-interface OrderStore {
+interface OrderState {
   orders: Order[];
-  currentOrder: Order | null;
   isLoading: boolean;
   error: string | null;
 
-  fetchUserOrders: () => Promise<void>;
-  fetchOrderById: (orderId: string) => Promise<void>;
-  createOrder: (orderData: CreateOrderInput) => Promise<Order>;
-  cancelOrder: (orderId: string) => Promise<void>;
+  // Modal state
+  isAddOrderModalOpen: boolean;
+  selectedProductId: string | null;
+  selectedProductPrice: number | null;
+  selectedProductName: string | null;
+
+  // Actions
+  openAddOrderModal: (productId: string, price: number, name: string) => void;
+  closeAddOrderModal: () => void;
+  fetchMyOrders: (user_id: string) => Promise<void>;
+  submitOrder: (input: CreateOrderInput) => Promise<void>;
   clearError: () => void;
 }
 
-export const useOrderStore = create<OrderStore>((set) => ({
+export const useOrderStore = create<OrderState>((set) => ({
   orders: [],
-  currentOrder: null,
   isLoading: false,
   error: null,
 
-  fetchUserOrders: async () => {
+  isAddOrderModalOpen: false,
+  selectedProductId: null,
+  selectedProductPrice: null,
+  selectedProductName: null,
+
+  openAddOrderModal: (productId, price, name) =>
+    set({
+      isAddOrderModalOpen: true,
+      selectedProductId: productId,
+      selectedProductPrice: price,
+      selectedProductName: name,
+    }),
+
+  closeAddOrderModal: () =>
+    set({
+      isAddOrderModalOpen: false,
+      selectedProductId: null,
+      selectedProductPrice: null,
+      selectedProductName: null,
+    }),
+
+  fetchMyOrders: async (user_id) => {
     set({ isLoading: true, error: null });
     try {
-      const orders = await ordersAPI.getUserOrders();
+      const orders = await getMyOrders(user_id);
       set({ orders, isLoading: false });
-    } catch (error: any) {
-      set({ error: error.message, isLoading: false });
+    } catch (err: any) {
+      set({ error: err?.message ?? "Failed to fetch orders", isLoading: false });
     }
   },
 
-  fetchOrderById: async (orderId: string) => {
+  submitOrder: async (input) => {
     set({ isLoading: true, error: null });
     try {
-      const order = await ordersAPI.getOrderById(orderId);
-      set({ currentOrder: order, isLoading: false });
-    } catch (error: any) {
-      set({ error: error.message, isLoading: false });
-    }
-  },
-
-  createOrder: async (orderData: CreateOrderInput) => {
-    set({ isLoading: true, error: null });
-    try {
-      const newOrder = await ordersAPI.createOrder(orderData);
+      const newOrder = await createOrder(input);
       set((state) => ({
         orders: [newOrder, ...state.orders],
-        currentOrder: newOrder,
         isLoading: false,
+        isAddOrderModalOpen: false,
+        selectedProductId: null,
+        selectedProductPrice: null,
+        selectedProductName: null,
       }));
-      return newOrder;
-    } catch (error: any) {
-      set({ error: error.message, isLoading: false });
-      throw error;
-    }
-  },
-
-  cancelOrder: async (orderId: string) => {
-    set({ isLoading: true, error: null });
-    try {
-      const cancelledOrder = await ordersAPI.cancelOrder(orderId);
-      set((state) => ({
-        orders: state.orders.map((order) =>
-          order.id === orderId ? { ...order, status: cancelledOrder.status } : order,
-        ),
-        currentOrder:
-          state.currentOrder?.id === orderId
-            ? { ...state.currentOrder, status: cancelledOrder.status }
-            : state.currentOrder,
-        isLoading: false,
-      }));
-    } catch (error: any) {
-      set({ error: error.message, isLoading: false });
+    } catch (err: any) {
+      set({ error: err?.message ?? "Failed to create order", isLoading: false });
     }
   },
 

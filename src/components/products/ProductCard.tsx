@@ -4,6 +4,7 @@ import { useProductStore } from "../../store/productStore";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { ProductForm } from "./ProductForm";
 import { useAuthStore } from "../../store/authStore";
+import { useOrderStore } from "../../store/orderStore";
 
 interface ProductCardProps {
   product: Product;
@@ -20,6 +21,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       await deleteProduct(product.id);
     }
   };
+  const openAddOrderModal = useOrderStore((state) => state.openAddOrderModal);
 
   if (isEditing) {
     return (
@@ -46,7 +48,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </div>
         <div className="mt-4 flex justify-end space-x-2">
           <div className="space-x-2">
-            {role === "admin" ? (
+            {role === "ADMIN" ? (
               <div>
                 <button
                   onClick={() => setIsEditing(true)}
@@ -61,6 +63,16 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               </div>
             ) : (
               <div>
+                <button
+                  onClick={() => openAddOrderModal(product.id, product.price, product.name)}
+                  disabled={product.quantity === 0}
+                  className="mt-2 w-full py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                  </svg>
+                  Add Order
+                </button>
                 <button className="bg-blue-600 rounded-xl p-2 text-white">Add to cart</button>
               </div>
             )}
