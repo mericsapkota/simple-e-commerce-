@@ -64,16 +64,18 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             ) : (
               <div>
                 <button
-                  onClick={() => openAddOrderModal(product.id, product.price, product.name)}
+                  onClick={() =>
+                    openAddOrderModal(product.id, product.price, product.name, product.imageUrl, product.quantity)
+                  }
                   disabled={product.quantity === 0}
-                  className="mt-2 w-full py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
+                  className="mt-2 w-full p-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
                 >
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                   </svg>
                   Add Order
                 </button>
-                <button className="bg-blue-600 rounded-xl p-2 text-white">Add to cart</button>
+                {/* <button className="bg-blue-600 rounded-xl p-2 text-white">Add to cart</button> */}
               </div>
             )}
           </div>

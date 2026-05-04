@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useOrderStore } from "../../store/orderStore";
 import { useAuthStore } from "../../store/authStore";
 import type { CreateOrderInput, PaymentMethod } from "../../types/Ordertypes";
+import { XCircleIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
 interface FormValues {
   quantity: number;
@@ -23,6 +24,8 @@ export default function AddOrderModal() {
     selectedProductId,
     selectedProductPrice,
     selectedProductName,
+    selectedProductImageUrl,
+    selectedProductQuantity,
     isLoading,
     error,
     closeAddOrderModal,
@@ -79,7 +82,7 @@ export default function AddOrderModal() {
   return (
     /* Backdrop */
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs"
       onClick={(e) => {
         if (e.target === e.currentTarget) closeAddOrderModal();
       }}
@@ -87,20 +90,28 @@ export default function AddOrderModal() {
       {/* Modal */}
       <div className="relative w-full max-w-md rounded-2xl bg-white shadow-2xl mx-4">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+        <div className="flex  justify-between px-6 py-4 border-b border-gray-100">
           <div>
             <h2 className="text-lg font-semibold text-gray-900">Place Order</h2>
             {selectedProductName && (
               <p className="text-sm text-gray-500 mt-0.5 truncate max-w-xs">{selectedProductName}</p>
             )}
+            {selectedProductImageUrl && (
+              <img
+                src={selectedProductImageUrl}
+                alt={selectedProductName || ""}
+                className="w-full h-32 object-cover mt-2 rounded"
+              />
+            )}
+            {selectedProductQuantity !== null && (
+              <p className="text-sm text-gray-500 mt-1">Available Stock: {selectedProductQuantity}</p>
+            )}
           </div>
           <button
             onClick={closeAddOrderModal}
-            className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
+            className="p-1.5 rounded-lg h-max text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
           >
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
+            <XMarkIcon className="w-8 h-8" />
           </button>
         </div>
 
@@ -131,6 +142,7 @@ export default function AddOrderModal() {
                 min: { value: 1, message: "Minimum quantity is 1" },
                 valueAsNumber: true,
               })}
+              max={selectedProductQuantity || ""}
               className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
             />
             {errors.quantity && <p className="mt-1 text-xs text-red-500">{errors.quantity.message}</p>}

@@ -7,7 +7,7 @@ import { SignupForm } from "./pages/Signup";
 import { ProtectedRoute } from "./components/layout/ProtectedRoute";
 import { Dashboard } from "./pages/Dashboard";
 import { ProductsPage } from "./pages/ProductPages";
-
+import AddOrderModal from "./components/orders/AddOrderModal";
 function App() {
   const { initializeAuth, isInitialized, isAuthenticated } = useAuthStore();
 
@@ -42,6 +42,7 @@ function App() {
           <Route path="/" element={<LoginForm />} />
         </Routes>
       </BrowserRouter>
+      <AddOrderModal />
     </>
   );
 }
