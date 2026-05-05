@@ -61,6 +61,7 @@ export const useOrderStore = create<OrderState>((set, get) => ({
       const orders = await getMyOrders(user_id);
       set({ orders, isLoading: false });
     } catch (err: any) {
+      console.log("err", err);
       set({ error: err?.message ?? "Failed to fetch orders", isLoading: false });
     }
   },
@@ -83,6 +84,7 @@ export const useOrderStore = create<OrderState>((set, get) => ({
         selectedProductName: null,
       }));
     } catch (err: any) {
+      console.log("err", err);
       set({ error: err?.message ?? "Failed to create order", isLoading: false });
     }
   },

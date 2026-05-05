@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
+    "@hookform/resolvers": "^5.2.2",
     "@tailwindcss/vite": "^4.2.4",
     "date-fns": "^4.1.0",
     "graphql": "^16.13.2",
@@ -21,6 +22,7 @@
     "react-hook-form": "^7.74.0",
     "react-router-dom": "^7.14.2",
     "tailwindcss": "^4.2.4",
+    "zod": "^4.4.3",
     "zustand": "^5.0.12"
   },
   "devDependencies": {

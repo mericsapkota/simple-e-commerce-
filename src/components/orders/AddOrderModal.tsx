@@ -1,15 +1,29 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useOrderStore } from "../../store/orderStore";
 import { useAuthStore } from "../../store/authStore";
 import type { CreateOrderInput, PaymentMethod } from "../../types/Ordertypes";
-import { XCircleIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 
-interface FormValues {
-  quantity: number;
-  shipping_address: string;
-  payment_method: PaymentMethod;
-}
+const PAYMENT_METHOD_VALUES = ["CASH_ON_DELIVERY", "CREDIT_CARD", "ESEWA", "KHALTI"] as const;
+
+const createOrderSchema = (maxQuantity: number | null) =>
+  z.object({
+    quantity: z
+      .number()
+      .int()
+      .min(1, "Minimum quantity is 1")
+      .refine(
+        (value) => maxQuantity === null || value <= maxQuantity,
+        maxQuantity === null ? undefined : { message: `Quantity cannot exceed available stock (${maxQuantity})` },
+      ),
+    shipping_address: z.string().trim().min(10, "Please enter a complete address"),
+    payment_method: z.enum(PAYMENT_METHOD_VALUES),
+  });
+
+type FormValues = z.infer<ReturnType<typeof createOrderSchema>>;
 
 const PAYMENT_METHODS: { value: PaymentMethod; label: string }[] = [
   { value: "CASH_ON_DELIVERY", label: "Cash on Delivery" },
@@ -36,18 +50,22 @@ export default function AddOrderModal() {
   // Adjust this selector to match your authStore shape
   const user = useAuthStore((state) => (state as any).user);
 
+  const orderSchema = createOrderSchema(selectedProductQuantity);
+
   const {
     register,
     handleSubmit,
     watch,
     reset,
-    formState: { errors },
+    formState: { errors, touchedFields },
   } = useForm<FormValues>({
+    resolver: zodResolver(orderSchema),
     defaultValues: {
       quantity: 1,
       shipping_address: "",
       payment_method: "CASH_ON_DELIVERY",
     },
+    mode: "all",
   });
 
   const quantity = watch("quantity");
@@ -120,7 +138,7 @@ export default function AddOrderModal() {
           {/* Error Banner */}
           {error && (
             <div className="flex items-start gap-2 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
-              <svg className="w-4 h-4 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <svg className="w-4 h-4 mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path
                   fillRule="evenodd"
                   d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
@@ -136,12 +154,7 @@ export default function AddOrderModal() {
             <label className="block text-sm font-medium text-gray-700 mb-1">Quantity</label>
             <input
               type="number"
-              min={1}
-              {...register("quantity", {
-                required: "Quantity is required",
-                min: { value: 1, message: "Minimum quantity is 1" },
-                valueAsNumber: true,
-              })}
+              {...register("quantity", { valueAsNumber: true })}
               max={selectedProductQuantity || ""}
               className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
             />
@@ -154,22 +167,18 @@ export default function AddOrderModal() {
             <textarea
               rows={2}
               placeholder="Enter your full delivery address"
-              {...register("shipping_address", {
-                required: "Shipping address is required",
-                minLength: { value: 10, message: "Please enter a complete address" },
-              })}
+              {...register("shipping_address")}
               className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition resize-none"
             />
-            {errors.shipping_address && <p className="mt-1 text-xs text-red-500">{errors.shipping_address.message}</p>}
+            {errors.shipping_address && touchedFields.shipping_address && (
+              <p className="mt-1 text-xs text-red-500">{errors.shipping_address.message}</p>
+            )}
           </div>
 
           {/* Payment Method */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Payment Method</label>
-            <select
-              {...register("payment_method", { required: "Payment method is required" })}
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-white"
-            >
+            <select className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-white">
               {PAYMENT_METHODS.map((pm) => (
                 <option key={pm.value} value={pm.value}>
                   {pm.label}
