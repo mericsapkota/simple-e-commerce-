@@ -8,6 +8,8 @@ import { ProtectedRoute } from "./components/layout/ProtectedRoute";
 import { Dashboard } from "./pages/Dashboard";
 import { ProductsPage } from "./pages/ProductPages";
 import AddOrderModal from "./components/orders/AddOrderModal";
+import OrderPage from "./pages/OrderPage";
+
 function App() {
   const { initializeAuth, isInitialized, isAuthenticated } = useAuthStore();
 
@@ -36,6 +38,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <ProductsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/orders"
+            element={
+              <ProtectedRoute>
+                <OrderPage />
               </ProtectedRoute>
             }
           />

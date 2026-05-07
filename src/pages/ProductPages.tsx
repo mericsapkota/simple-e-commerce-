@@ -5,6 +5,7 @@ import { useProductStore } from "../store/productStore";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useAuthStore } from "../store/authStore";
 import { useNavigate } from "react-router-dom";
+import Header from "../components/layout/Header";
 
 export const ProductsPage: React.FC = () => {
   // const [showCreateModal, setShowCreateModal] = useState(false);
@@ -13,7 +14,7 @@ export const ProductsPage: React.FC = () => {
   const { setShowCreateModal } = useProductStore();
   const { showCreateModal } = useProductStore();
   const { isAuthenticated, isInitialized, initializeAuth } = useAuthStore();
-
+  const user = useAuthStore((state) => state.user);
   if (!isAuthenticated) {
     navigate("/login");
   }
@@ -37,10 +38,11 @@ export const ProductsPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
+      <Header />
       <ProductList />
 
       {/* Create Product Modal */}
-      {showCreateModal && (
+      {showCreateModal && user?.role === "admin" && (
         <div className="fixed inset-0 w-full bg-black/80  h-svh flex items-center justify-center z-50">
           <div className="bg-white mt-5 rounded-lg p-6  min-w-lg mx-4 relative">
             <button
@@ -55,7 +57,7 @@ export const ProductsPage: React.FC = () => {
       )}
 
       {/* Button to open modal - you can also add this in ProductList */}
-      {!showCreateModal && (
+      {/* {!showCreateModal && (
         <button
           onClick={() => setShowCreateModal(true)}
           className="fixed bottom-8 right-8 bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition-colors"
@@ -64,7 +66,7 @@ export const ProductsPage: React.FC = () => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
           </svg>
         </button>
-      )}
+      )} */}
     </div>
   );
 };

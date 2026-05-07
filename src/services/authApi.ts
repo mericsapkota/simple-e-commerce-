@@ -56,4 +56,18 @@ export const authAPI = {
     const response = await graphqlClient.request<{ me: User }>(query);
     return response.me;
   },
+
+  getRole: async (): Promise<User> => {
+    const query = `
+      query GetCurrentUser {
+        getProfile {
+          role
+        }
+      }
+    `;
+    const response = await graphqlClient.request<{ getProfile: User }>(query);
+    return response.getProfile;
+  },
 };
+
+export const getRole = authAPI.getRole;

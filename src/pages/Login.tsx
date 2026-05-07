@@ -27,7 +27,7 @@ export const LoginForm: React.FC = () => {
       const response = await authAPI.login(formData.email, formData.password);
 
       const parseToken = JSON.parse(atob(response.access_token.split(".")[1]));
-
+      console.log(parseToken, "parse token");
       login(
         { id: parseToken.sub, username: parseToken.username, email: parseToken.email, role: parseToken.role },
         response.access_token,

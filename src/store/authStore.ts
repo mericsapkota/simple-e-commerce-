@@ -1,15 +1,18 @@
 import { create } from "zustand";
 import type { AuthState, User } from "../types/Authtypes";
 import { setAuthToken } from "../services/graphql";
+import { getRole } from "../services/authApi";
 
 interface AuthStore extends AuthState {
   login: (user: User, token: string) => void;
   logout: () => void;
+  role: string
   updateUser: (user: User) => void;
   initializeAuth: () => Promise<void>;
   isInitialized: boolean;
   authCheck: () => Promise<void>;
   isAuthenticated: boolean;
+  getRole:()=> Promise<void>;
 }
 
 const isUserCheck = localStorage.getItem("user") ? true : false;
@@ -19,6 +22,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
   accessToken: localStorage.getItem("access_token"),
   isAuthenticated: false,
   isInitialized: false,
+  role: "",
 
   initializeAuth: async () => {
     const token = localStorage.getItem("access_token");
@@ -64,4 +68,9 @@ export const useAuthStore = create<AuthStore>((set) => ({
       isAuthenticated: !!token,
     });
   },
+  getRole:async()=>{
+    const response = await getRole()
+    set({role:response.role})
+   
+  }
 }));

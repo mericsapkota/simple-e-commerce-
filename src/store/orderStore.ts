@@ -1,6 +1,6 @@
 import { create } from "zustand";
-import type { Order, CreateOrderInput } from "../types/Ordertypes";
-import { createOrder, getMyOrders } from "../services/orderApi";
+import type { Order, CreateOrderInput, OrderStatus } from "../types/Ordertypes";
+import { createOrder, getAllOrders, getMyOrders, updateOrderStatus } from "../services/orderApi";
 
 interface OrderState {
   orders: Order[];
@@ -14,13 +14,20 @@ interface OrderState {
   selectedProductName: string | null;
   selectedProductQuantity: number | null;
   selectedProductImageUrl: string | null;
-
+  
+  // isViewOrderModalOpen: boolean;
+  // selectedOrder: Order | null;
+  
   // Actions
   openAddOrderModal: (productId: string, price: number, name: string, imageUrl: string, quantity: number) => void;
   closeAddOrderModal: () => void;
-  fetchMyOrders: (user_id: string) => Promise<void>;
+  // openViewOrderModal: (order: Order) => void;
+  // closeViewOrderModal: () => void;
+  fetchMyOrders: () => Promise<void>;
   submitOrder: (input: CreateOrderInput) => Promise<void>;
   clearError: () => void;
+  fetchAllOrders: () => Promise<void>;
+  updateOrderStatus: (id: string, status: OrderStatus) => Promise<void>;
 }
 
 export const useOrderStore = create<OrderState>((set, get) => ({
@@ -55,14 +62,40 @@ export const useOrderStore = create<OrderState>((set, get) => ({
       selectedProductQuantity: null,
     }),
 
-  fetchMyOrders: async (user_id) => {
+  fetchMyOrders: async () => {
     set({ isLoading: true, error: null });
     try {
-      const orders = await getMyOrders(user_id);
+      const orders = await getMyOrders();
+      console.log("orders", orders);
       set({ orders, isLoading: false });
     } catch (err: any) {
       console.log("err", err);
       set({ error: err?.message ?? "Failed to fetch orders", isLoading: false });
+    }
+  },
+  fetchAllOrders: async ()=>{
+    set({isLoading:true, error:null});
+    try{
+      const orders = await getAllOrders();
+      set({orders, isLoading:false});
+    }catch(err:any){
+      console.log("err", err);
+      set({error:err?.message ?? "Failed to fetch orders", isLoading:false});
+    }
+  },
+
+  updateOrderStatus: async (id, status) => {
+    set({ isLoading: true, error: null });
+    try {
+      const updatedOrder = await updateOrderStatus( id, status );
+      console.log("updatedOrder", updatedOrder);
+      set((state) => ({
+        orders: state.orders.map((o) => (o.id === id ?{...o, status: updatedOrder.status, updated_at: updatedOrder.updated_at}: o)),
+        isLoading: false,
+      }));
+    } catch (err: any) {
+      console.log("err", err);
+      set({ error: err?.message ?? "Failed to update order status", isLoading: false });
     }
   },
 

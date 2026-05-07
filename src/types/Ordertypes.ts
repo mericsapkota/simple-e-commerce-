@@ -4,7 +4,11 @@ export type PaymentMethod = "CASH_ON_DELIVERY" | "CREDIT_CARD" | "ESEWA" | "KHAL
 export interface OrderItem {
   id: string;
   order_id: string;
-  product_id: string;
+  product: {
+    id: string;
+    name: string;
+    image: string;
+  }
   quantity: number;
   price: number;
   subtotal: number;
@@ -24,14 +28,26 @@ export interface Order {
 }
 
 export interface CreateOrderInput {
-  user_id: string;
   shipping_address: string;
   payment_method: PaymentMethod;
   product_id: string;
   quantity: number;
-  price: number;
+}
+
+export interface UpdateOrderInput {
+  id: string;
+  shipping_address?: string;
+  payment_method?: PaymentMethod;
+  status?: OrderStatus;
+  quantity?: number;
 }
 
 export interface CreateOrderResponse {
   createOrder: Order;
+}
+
+export interface UpdateOrderResponse {
+  id:string;
+  status:OrderStatus;
+  updated_at:string;
 }

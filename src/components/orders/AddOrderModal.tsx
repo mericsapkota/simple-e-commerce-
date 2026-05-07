@@ -47,6 +47,7 @@ export default function AddOrderModal() {
     clearError,
   } = useOrderStore();
 
+  console.log("img", selectedProductImageUrl);
   // Adjust this selector to match your authStore shape
   const user = useAuthStore((state) => (state as any).user);
 
@@ -86,10 +87,8 @@ export default function AddOrderModal() {
     if (!selectedProductId || !user?.id) return;
 
     const input: CreateOrderInput = {
-      user_id: user.id,
       product_id: selectedProductId,
       quantity: Number(data.quantity),
-      price: unitPrice,
       shipping_address: data.shipping_address,
       payment_method: data.payment_method,
     };

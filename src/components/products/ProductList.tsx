@@ -3,11 +3,14 @@ import { useProductStore } from "../../store/productStore";
 import { ProductCard } from "./ProductCard";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { useAuthStore } from "../../store/authStore";
+import { useOrderStore } from "../../store/orderStore";
 
 export const ProductList: React.FC = () => {
   const { products, loading, error, fetchProducts } = useProductStore();
   const { setShowCreateModal } = useProductStore();
   const { isInitialized, initializeAuth } = useAuthStore();
+  const user = useAuthStore((state) => state.user);
+  const orders = useOrderStore((state) => state.orders);
   useEffect(() => {
     // const init = async () => {
     //   if (!isInitialized) {
@@ -19,6 +22,10 @@ export const ProductList: React.FC = () => {
     console.log(isInitialized, "isInitialized");
     fetchProducts();
   }, [isInitialized]);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [orders]);
 
   if (loading && products.length === 0) {
     return (
@@ -43,15 +50,17 @@ export const ProductList: React.FC = () => {
     <div className="container mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Products</h1>
-        <button
-          onClick={() => {
-            setShowCreateModal(true);
-          }}
-          className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-        >
-          <PlusIcon className="h-5 w-5 mr-2" />
-          Add Product
-        </button>
+        {user?.role === "ADMIN" && (
+          <button
+            onClick={() => {
+              setShowCreateModal(true);
+            }}
+            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          >
+            <PlusIcon className="h-5 w-5 mr-2" />
+            Add Product
+          </button>
+        )}
       </div>
 
       {products.length === 0 ? (
