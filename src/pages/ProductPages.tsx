@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { ProductList } from "../components/products/ProductList";
 import { ProductForm } from "../components/products/ProductForm";
 import { useProductStore } from "../store/productStore";
@@ -6,9 +6,9 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useAuthStore } from "../store/authStore";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/layout/Header";
+import "./ProductPages.css";
 
 export const ProductsPage: React.FC = () => {
-  // const [showCreateModal, setShowCreateModal] = useState(false);
   const navigate = useNavigate();
   const { createProduct } = useProductStore();
   const { setShowCreateModal } = useProductStore();
@@ -37,36 +37,27 @@ export const ProductsPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="pp-root">
       <Header />
       <ProductList />
 
       {/* Create Product Modal */}
-      {showCreateModal && user?.role === "admin" && (
-        <div className="fixed inset-0 w-full bg-black/80  h-svh flex items-center justify-center z-50">
-          <div className="bg-white mt-5 rounded-lg p-6  min-w-lg mx-4 relative">
+      {showCreateModal && user?.role === "ADMIN" && (
+        <div className="pp-modal-overlay">
+          <div className="pp-modal">
             <button
               onClick={() => setShowCreateModal(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+              className="pp-modal-close"
             >
-              <XMarkIcon className="h-6 w-6" />
+              <XMarkIcon className="h-5 w-5" />
             </button>
-            <ProductForm onSubmit={handleCreateProduct} onCancel={() => setShowCreateModal(false)} />
+            <ProductForm
+              onSubmit={handleCreateProduct}
+              onCancel={() => setShowCreateModal(false)}
+            />
           </div>
         </div>
       )}
-
-      {/* Button to open modal - you can also add this in ProductList */}
-      {/* {!showCreateModal && (
-        <button
-          onClick={() => setShowCreateModal(true)}
-          className="fixed bottom-8 right-8 bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition-colors"
-        >
-          <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-          </svg>
-        </button>
-      )} */}
     </div>
   );
 };

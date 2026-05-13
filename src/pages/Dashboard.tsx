@@ -1,10 +1,11 @@
 import Header from "../components/layout/Header";
 import { useAuthStore } from "../store/authStore";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const Dashboard = () => {
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -15,6 +16,14 @@ export const Dashboard = () => {
             <h1 className="text-2xl font-bold mb-4">Welcome, {user?.username}!</h1>
             <p className="text-gray-600">Role: {user?.role}</p>
             <p className="text-gray-600 mt-2">Manage your products from the Products page.</p>
+          </div>
+          <div>
+            <a
+              className="text-blue-500 hover:text-blue-700 cursor-pointer"
+              onClick={() => navigate("/forgot-password")}
+            >
+              Change Password
+            </a>
           </div>
         </div>
       </div>

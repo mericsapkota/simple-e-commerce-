@@ -6,13 +6,13 @@ import { getRole } from "../services/authApi";
 interface AuthStore extends AuthState {
   login: (user: User, token: string) => void;
   logout: () => void;
-  role: string
+  role: string;
   updateUser: (user: User) => void;
   initializeAuth: () => Promise<void>;
   isInitialized: boolean;
   authCheck: () => Promise<void>;
   isAuthenticated: boolean;
-  getRole:()=> Promise<void>;
+  getRole: () => Promise<string>;
 }
 
 const isUserCheck = localStorage.getItem("user") ? true : false;
@@ -42,6 +42,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
   login: (user, token) => {
     setAuthToken(token);
     localStorage.setItem("access_token", token);
+
     // console.log(user, "user");
     localStorage.setItem("user", JSON.stringify(user));
     set({ user, accessToken: token, isAuthenticated: true });
@@ -68,9 +69,9 @@ export const useAuthStore = create<AuthStore>((set) => ({
       isAuthenticated: !!token,
     });
   },
-  getRole:async()=>{
-    const response = await getRole()
-    set({role:response.role})
-   
-  }
+  getRole: async () => {
+    const response = await getRole();
+    set({ role: response.role });
+    return response.role;
+  },
 }));

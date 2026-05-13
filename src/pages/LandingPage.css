@@ -1,0 +1,624 @@
+@reference "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
+
+:root {
+  --lp-bg: oklch(0.97 0.02 90);
+  --lp-surface: oklch(0.99 0.01 90);
+  --lp-primary: oklch(0.45 0.12 145);
+  --lp-primary-l: oklch(0.88 0.06 140);
+  --lp-primary-d: oklch(0.35 0.1 145);
+  --lp-accent: oklch(0.5 0.14 85);
+  --lp-accent-l: oklch(0.92 0.05 85);
+  --lp-text: oklch(0.22 0.02 90);
+  --lp-text-sub: oklch(0.45 0.02 90);
+  --lp-border: oklch(0.9 0.03 100);
+  --lp-glass: rgba(255, 255, 255, 0.65);
+  --lp-radius: 16px;
+  --lp-hero-grad: linear-gradient(135deg, oklch(0.95 0.03 85) 0%, oklch(0.9 0.05 140) 100%);
+}
+
+@keyframes lp-float {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(30px, -30px);
+  }
+}
+@keyframes lp-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* ── Reset / Root ── */
+.lp-root {
+  @apply font-[Inter,system-ui,sans-serif] overflow-x-hidden;
+  color: var(--lp-text);
+  background: var(--lp-bg);
+  line-height: 1.6;
+}
+.lp-root *,
+.lp-root *::before,
+.lp-root *::after {
+  @apply box-border m-0 p-0;
+}
+
+/* ── Scroll animation base ── */
+.lp-animate {
+  @apply opacity-0 translate-y-7 transition-[opacity,transform] duration-700;
+  transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+}
+.lp-visible {
+  @apply opacity-100 translate-y-0;
+}
+
+/* ── Nav ── */
+.lp-nav {
+  @apply fixed top-0 left-0 right-0 z-[100] px-8 py-4 transition-all duration-[350ms] ease-in-out;
+}
+.lp-nav--scrolled {
+  @apply border-b backdrop-blur-lg px-8 py-3;
+  background: var(--lp-glass);
+  border-color: var(--lp-border);
+  -webkit-backdrop-filter: blur(18px) saturate(1.6);
+  backdrop-filter: blur(18px) saturate(1.6);
+}
+.lp-nav-inner {
+  @apply max-w-[1200px] mx-auto flex items-center justify-between;
+}
+.lp-logo {
+  @apply flex items-center gap-2 no-underline;
+}
+.lp-logo-icon {
+  @apply text-2xl;
+  color: var(--lp-primary);
+}
+.lp-logo-text {
+  @apply text-[1.35rem] font-extrabold tracking-tight;
+  color: var(--lp-text);
+}
+.lp-nav-links {
+  @apply flex items-center gap-6;
+}
+.lp-nav-link {
+  @apply no-underline text-[.9rem] font-medium transition-colors duration-200;
+  color: var(--lp-text-sub);
+}
+.lp-nav-link:hover {
+  color: var(--lp-primary);
+}
+.lp-nav-btn-ghost {
+  @apply no-underline text-[.9rem] font-semibold px-4 py-2 rounded-[10px] transition-[background] duration-200;
+  color: var(--lp-primary);
+}
+.lp-nav-btn-ghost:hover {
+  background: var(--lp-primary-l);
+}
+.lp-nav-btn {
+  @apply no-underline text-[.9rem] font-semibold px-5 py-[.55rem] rounded-[10px] text-white transition-all duration-[250ms];
+  background: var(--lp-primary);
+}
+.lp-nav-btn:hover {
+  @apply -translate-y-px;
+  background: var(--lp-primary-d);
+  box-shadow: 0 4px 14px oklch(0.45 0.12 145 / 0.3);
+}
+
+/* ── Hero ── */
+.lp-hero {
+  @apply min-h-screen flex items-center justify-center gap-16 px-8 pt-32 pb-16 relative overflow-hidden;
+  background: var(--lp-hero-grad);
+}
+.lp-hero-orb {
+  @apply absolute rounded-full pointer-events-none;
+  filter: blur(80px);
+  opacity: 0.45;
+}
+.lp-hero-orb--1 {
+  @apply w-[500px] h-[500px] -top-[100px] -left-[100px];
+  background: oklch(0.85 0.08 85);
+  animation: lp-float 8s ease-in-out infinite;
+}
+.lp-hero-orb--2 {
+  @apply w-[400px] h-[400px] -bottom-[50px] -right-[50px];
+  background: oklch(0.82 0.08 145);
+  animation: lp-float 10s ease-in-out infinite reverse;
+}
+.lp-hero-orb--3 {
+  @apply w-[250px] h-[250px] top-[40%] left-1/2;
+  background: oklch(0.88 0.06 110);
+  animation: lp-float 12s ease-in-out infinite 2s;
+}
+.lp-hero-content {
+  @apply max-w-[560px] relative z-[2];
+}
+.lp-hero-badge {
+  @apply inline-block border px-4 py-[.4rem] rounded-full text-[.82rem] font-semibold mb-6 backdrop-blur-[10px];
+  background: var(--lp-glass);
+  border-color: var(--lp-border);
+  color: var(--lp-primary);
+}
+.lp-hero-title {
+  @apply text-[3.5rem] font-black leading-[1.08] tracking-[-0.03em] mb-5;
+  color: var(--lp-text);
+}
+.lp-hero-title-accent {
+  @apply [-webkit-background-clip:text] [background-clip:text] [-webkit-text-fill-color:transparent];
+  background-image: linear-gradient(135deg, var(--lp-primary), var(--lp-accent));
+}
+.lp-hero-subtitle {
+  @apply text-[1.1rem] leading-[1.7] mb-8 max-w-[480px];
+  color: var(--lp-text-sub);
+}
+.lp-hero-actions {
+  @apply flex gap-4 flex-wrap mb-10;
+}
+
+/* ── Buttons ── */
+.lp-btn-primary {
+  @apply inline-flex items-center gap-2 text-white no-underline text-[.95rem] font-semibold px-7 py-[.85rem] rounded-xl transition-all duration-300;
+  background: var(--lp-primary);
+  box-shadow: 0 2px 12px oklch(0.45 0.12 145 / 0.2);
+}
+.lp-btn-primary:hover {
+  @apply -translate-y-0.5;
+  background: var(--lp-primary-d);
+  box-shadow: 0 6px 24px oklch(0.45 0.12 145 / 0.35);
+}
+.lp-btn-primary--large {
+  @apply px-9 py-4 text-[1.05rem] rounded-2xl;
+}
+.lp-btn-arrow {
+  @apply transition-transform duration-[250ms];
+}
+.lp-btn-primary:hover .lp-btn-arrow {
+  @apply translate-x-1;
+}
+.lp-btn-secondary {
+  @apply inline-flex items-center gap-2 no-underline text-[.95rem] font-semibold px-7 py-[.85rem] rounded-xl border transition-all duration-[250ms] backdrop-blur-[10px];
+  background: var(--lp-glass);
+  border-color: var(--lp-border);
+  color: var(--lp-text);
+}
+.lp-btn-secondary:hover {
+  @apply bg-white/90;
+  border-color: var(--lp-primary-l);
+}
+.lp-btn-ghost {
+  @apply no-underline font-medium text-[.95rem] transition-colors duration-200;
+  color: var(--lp-text-sub);
+}
+.lp-btn-ghost:hover {
+  color: var(--lp-primary);
+}
+
+/* ── Trust bar ── */
+.lp-hero-trust {
+  @apply flex items-center gap-3;
+}
+.lp-trust-avatars {
+  @apply flex;
+}
+.lp-trust-avatar {
+  @apply w-[34px] h-[34px] rounded-full flex items-center justify-center text-[.7rem] font-bold text-white -ml-2 border-2;
+  border-color: var(--lp-bg);
+}
+.lp-trust-avatar:first-child {
+  @apply ml-0;
+}
+.lp-trust-avatar--1 {
+  background: oklch(0.55 0.12 145);
+}
+.lp-trust-avatar--2 {
+  background: oklch(0.55 0.12 85);
+}
+.lp-trust-avatar--3 {
+  background: oklch(0.5 0.14 200);
+}
+.lp-trust-avatar--4 {
+  background: oklch(0.55 0.12 320);
+}
+.lp-trust-text {
+  @apply text-[.85rem];
+  color: var(--lp-text-sub);
+}
+.lp-trust-text strong {
+  color: var(--lp-text);
+}
+
+/* ── Hero visual ── */
+.lp-hero-visual {
+  @apply relative z-[2] shrink-0;
+}
+.lp-hero-card {
+  @apply border rounded-[var(--lp-radius)] backdrop-blur-[16px];
+  background: var(--lp-glass);
+  border-color: var(--lp-border);
+}
+.lp-hero-card--main {
+  @apply p-6 w-[280px];
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+}
+.lp-card-chip {
+  @apply text-[.75rem] font-semibold mb-4;
+  color: var(--lp-primary);
+}
+.lp-card-product {
+  @apply flex items-center gap-4 mb-4;
+}
+.lp-product-img-placeholder {
+  @apply w-16 h-16 rounded-xl flex items-center justify-center text-[1.8rem];
+  background: var(--lp-primary-l);
+}
+.lp-product-name {
+  @apply font-bold text-[.95rem];
+}
+.lp-product-price {
+  @apply font-extrabold text-[1.1rem] mt-[.15rem];
+  color: var(--lp-primary);
+}
+.lp-card-cta {
+  @apply text-center text-white px-0 py-[.55rem] rounded-[10px] text-[.85rem] font-semibold cursor-pointer transition-[background] duration-200;
+  background: var(--lp-primary);
+}
+.lp-card-cta:hover {
+  background: var(--lp-primary-d);
+}
+.lp-hero-card--float1,
+.lp-hero-card--float2 {
+  @apply absolute px-4 py-[.6rem] text-[.8rem] font-semibold flex items-center gap-[.4rem];
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  animation: lp-bob 4s ease-in-out infinite;
+}
+.lp-hero-card--float1 {
+  @apply -top-5 -right-10;
+}
+.lp-hero-card--float2 {
+  @apply -bottom-[10px] -left-[30px];
+  animation-delay: 2s;
+}
+
+/* ── Stars ── */
+.lp-stars {
+  @apply flex gap-0.5;
+}
+.lp-star {
+  @apply text-[.9rem];
+  color: oklch(0.7 0.15 85);
+}
+
+/* ── Stats ── */
+.lp-stats {
+  @apply py-12 px-8 border-t border-b;
+  background: var(--lp-surface);
+  border-color: var(--lp-border);
+}
+.lp-stats-grid {
+  @apply max-w-[1000px] mx-auto grid grid-cols-4 gap-8 text-center;
+}
+.lp-stat-value {
+  @apply text-[2.2rem] font-black tracking-[-0.02em];
+  color: var(--lp-primary);
+}
+.lp-stat-label {
+  @apply text-[.85rem] font-medium mt-1;
+  color: var(--lp-text-sub);
+}
+
+/* ── Section shared ── */
+.lp-section-header {
+  @apply text-center max-w-[600px] mx-auto mb-14;
+}
+.lp-section-badge {
+  @apply inline-block text-[.78rem] font-bold px-[.9rem] py-[.35rem] rounded-full mb-4 uppercase tracking-[.05em];
+  background: var(--lp-primary-l);
+  color: var(--lp-primary);
+}
+.lp-section-title {
+  @apply text-[2.5rem] font-black leading-[1.15] tracking-[-0.025em];
+  color: var(--lp-text);
+}
+.lp-accent {
+  color: var(--lp-primary);
+}
+.lp-section-subtitle {
+  @apply text-[1.05rem] mt-3 leading-[1.7];
+  color: var(--lp-text-sub);
+}
+
+/* ── Services ── */
+.lp-services {
+  @apply py-24 px-8;
+  background: var(--lp-bg);
+}
+.lp-services-grid {
+  @apply max-w-[1100px] mx-auto grid grid-cols-3 gap-6;
+}
+.lp-service-card {
+  @apply border rounded-[var(--lp-radius)] p-8 relative overflow-hidden transition-all duration-[350ms];
+  background: var(--lp-surface);
+  border-color: var(--lp-border);
+}
+.lp-service-card:hover {
+  @apply -translate-y-1;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
+  border-color: var(--lp-primary-l);
+}
+.lp-service-icon {
+  @apply text-[2rem] mb-4;
+}
+.lp-service-title {
+  @apply text-[1.15rem] font-bold mb-2;
+}
+.lp-service-desc {
+  @apply text-[.9rem] leading-[1.65];
+  color: var(--lp-text-sub);
+}
+
+/* Animated bottom line — needs raw CSS (pseudo-free transform trick) */
+.lp-service-line {
+  @apply absolute bottom-0 left-0 right-0 h-[3px] scale-x-0 origin-left transition-transform duration-[400ms];
+  background: linear-gradient(90deg, var(--lp-primary), var(--lp-accent));
+}
+.lp-service-card:hover .lp-service-line {
+  @apply scale-x-100;
+}
+
+/* ── Feature section ── */
+.lp-feature {
+  @apply py-24 px-8;
+  background: var(--lp-surface);
+}
+.lp-feature-inner {
+  @apply max-w-[1100px] mx-auto flex items-center gap-16;
+}
+.lp-feature-text {
+  @apply flex-1;
+}
+.lp-feature-list {
+  @apply list-none mt-6 flex flex-col gap-[.9rem];
+}
+.lp-feature-item {
+  @apply flex items-center gap-3 text-[.95rem];
+  color: var(--lp-text-sub);
+}
+.lp-feature-check {
+  @apply w-6 h-6 rounded-full flex items-center justify-center text-[.75rem] font-extrabold shrink-0;
+  background: var(--lp-primary-l);
+  color: var(--lp-primary);
+}
+.lp-feature-visual {
+  @apply flex-1 flex justify-center;
+}
+
+/* ── Mockup ── */
+.lp-feature-mockup {
+  @apply w-[340px] border rounded-[var(--lp-radius)] overflow-hidden;
+  background: var(--lp-glass);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border-color: var(--lp-border);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.07);
+}
+.lp-mockup-header {
+  @apply flex gap-[6px] px-4 py-3 border-b;
+  background: oklch(0.96 0.01 90);
+  border-color: var(--lp-border);
+}
+.lp-mockup-dot {
+  @apply w-[10px] h-[10px] rounded-full;
+  background: var(--lp-border);
+}
+.lp-mockup-body {
+  @apply p-5;
+}
+.lp-mockup-row {
+  @apply flex justify-between items-center mb-4;
+}
+.lp-mockup-label {
+  @apply font-bold text-[.95rem];
+}
+.lp-mockup-pill {
+  @apply text-[.65rem] font-bold px-[.55rem] py-[.2rem] rounded-full;
+  background: oklch(0.9 0.08 145);
+  color: oklch(0.4 0.12 145);
+}
+.lp-mockup-order {
+  @apply flex items-center gap-[.6rem] px-3 py-[.6rem] rounded-[10px] mb-2;
+  background: oklch(0.97 0.01 90);
+}
+.lp-mockup-order-icon {
+  @apply text-[1.1rem];
+}
+.lp-mockup-order-name {
+  @apply flex-1 text-[.82rem] font-semibold;
+}
+.lp-mockup-order-status {
+  @apply text-[.75rem] font-bold;
+}
+.lp-mockup-bar-section {
+  @apply mt-4;
+}
+.lp-mockup-bar-label {
+  @apply text-[.75rem] font-semibold mb-2;
+  color: var(--lp-text-sub);
+}
+.lp-mockup-bars {
+  @apply flex items-end gap-[6px] h-[60px];
+}
+.lp-mockup-bar {
+  @apply flex-1 rounded-t-[4px] transition-[height] duration-[600ms];
+  background: linear-gradient(to top, var(--lp-primary), var(--lp-primary-l));
+  transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* ── Testimonials ── */
+.lp-testimonials {
+  @apply py-24 px-8;
+  background: var(--lp-hero-grad);
+}
+.lp-testimonials-grid {
+  @apply max-w-[1100px] mx-auto grid grid-cols-2 gap-6;
+}
+.lp-testimonial-card {
+  @apply border rounded-[var(--lp-radius)] p-8 transition-all duration-[350ms];
+  background: var(--lp-glass);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border-color: var(--lp-border);
+}
+.lp-testimonial-card:hover {
+  @apply -translate-y-1;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
+}
+.lp-testimonial-card--featured {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: var(--lp-primary-l);
+}
+.lp-testimonial-text {
+  @apply text-[.95rem] leading-[1.7] my-3 mb-5 italic;
+  color: var(--lp-text-sub);
+}
+.lp-testimonial-author {
+  @apply flex items-center gap-3;
+}
+.lp-author-avatar {
+  @apply w-10 h-10 rounded-full flex items-center justify-center text-[.75rem] font-bold text-white;
+}
+.lp-author-avatar--1 {
+  background: oklch(0.55 0.12 145);
+}
+.lp-author-avatar--2 {
+  background: oklch(0.55 0.12 85);
+}
+.lp-author-avatar--3 {
+  background: oklch(0.5 0.14 200);
+}
+.lp-author-avatar--4 {
+  background: oklch(0.55 0.12 320);
+}
+.lp-author-name {
+  @apply font-bold text-[.9rem];
+}
+.lp-author-role {
+  @apply text-[.78rem];
+  color: var(--lp-text-sub);
+}
+
+/* ── CTA ── */
+.lp-cta {
+  @apply py-24 px-8 relative overflow-hidden text-center;
+  background: var(--lp-surface);
+}
+.lp-cta-orb {
+  @apply absolute rounded-full pointer-events-none;
+  filter: blur(100px);
+  opacity: 0.3;
+}
+.lp-cta-orb--1 {
+  @apply w-[400px] h-[400px] -top-[150px] -right-[100px];
+  background: oklch(0.85 0.08 85);
+}
+.lp-cta-orb--2 {
+  @apply w-[350px] h-[350px] -bottom-[150px] -left-[100px];
+  background: oklch(0.82 0.08 145);
+}
+.lp-cta-content {
+  @apply relative z-[2] max-w-[600px] mx-auto;
+}
+.lp-cta-title {
+  @apply text-[2.8rem] font-black leading-[1.1] tracking-[-0.03em] mt-3 mb-4;
+  color: var(--lp-text);
+}
+.lp-cta-subtitle {
+  @apply text-[1.05rem] leading-[1.7] mb-8;
+  color: var(--lp-text-sub);
+}
+.lp-cta-actions {
+  @apply flex flex-col items-center gap-4;
+}
+
+/* ── Footer ── */
+.lp-footer {
+  @apply px-8 py-10;
+  background: oklch(0.15 0.02 90);
+}
+.lp-footer-inner {
+  @apply max-w-[1200px] mx-auto flex items-center justify-between flex-wrap gap-4;
+}
+.lp-footer .lp-logo-icon {
+  color: oklch(0.7 0.08 145);
+}
+.lp-footer .lp-logo-text {
+  color: oklch(0.85 0.02 90);
+}
+.lp-footer-copy {
+  @apply text-[.82rem];
+  color: oklch(0.55 0.02 90);
+}
+.lp-footer-links {
+  @apply flex gap-6;
+}
+.lp-footer-link {
+  @apply no-underline text-[.85rem] font-medium transition-colors duration-200;
+  color: oklch(0.65 0.02 90);
+}
+.lp-footer-link:hover {
+  color: oklch(0.85 0.05 145);
+}
+
+/* ─────────────────────────────────────────────
+   3. RESPONSIVE BREAKPOINTS
+   ─────────────────────────────────────────────
+   Below 900 px and 600 px — Tailwind can handle
+   these via responsive prefixes (md:, sm:) in
+   your HTML. Keeping them here for CSS-only use.
+   ───────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .lp-hero {
+    @apply flex-col gap-10 text-center px-6 pt-28 pb-12;
+  }
+  .lp-hero-subtitle,
+  .lp-hero-actions,
+  .lp-hero-trust {
+    @apply mx-auto justify-center;
+  }
+  .lp-services-grid {
+    @apply grid-cols-2;
+  }
+  .lp-feature-inner {
+    @apply flex-col;
+  }
+  .lp-testimonials-grid {
+    @apply grid-cols-1;
+  }
+  .lp-stats-grid {
+    @apply grid-cols-2;
+  }
+  .lp-hero-title {
+    @apply text-[2.5rem];
+  }
+  .lp-section-title {
+    @apply text-[2rem];
+  }
+  .lp-cta-title {
+    @apply text-[2.2rem];
+  }
+}
+@media (max-width: 600px) {
+  .lp-services-grid {
+    @apply grid-cols-1;
+  }
+  .lp-hero-title {
+    @apply text-[2rem];
+  }
+  .lp-nav-links .lp-nav-link {
+    @apply hidden;
+  }
+}

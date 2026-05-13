@@ -1,33 +1,41 @@
-import { Link, useNavigation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
-import { useOrderStore } from "../../store/orderStore";
+import { ShoppingBag } from "lucide-react";
 
 const Header = () => {
   const logout = useAuthStore((state) => state.logout);
+  const location = useLocation();
+
+  const isActive = (path: string) => location.pathname === path;
 
   return (
-    <div>
-      <nav className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex space-x-8">
-              <Link to="/dashboard" className="inline-flex items-center px-1 pt-1 text-gray-900">
-                Dashboard
-              </Link>
-              <Link to="/products" className="inline-flex items-center px-1 pt-1 text-gray-500 hover:text-gray-900">
-                Products
-              </Link>
-              <Link to="/orders" className="inline-flex items-center px-1 pt-1 text-gray-500 hover:text-gray-900">
-                Orders
-              </Link>
-            </div>
-            <button onClick={logout} className="text-red-600 hover:text-red-800">
-              Logout
-            </button>
+    <nav className="pp-nav">
+      <div className="pp-nav-inner">
+        <div className="pp-nav-brand">
+          <Link to="/" className="pp-logo">
+            <span className="pp-logo-icon">
+              <ShoppingBag />
+            </span>
+
+            <span className="pp-logo-text">Lumina</span>
+          </Link>
+          <div className="pp-nav-links">
+            <Link to="/dashboard" className={`pp-nav-link ${isActive("/dashboard") ? "pp-nav-link--active" : ""}`}>
+              Dashboard
+            </Link>
+            <Link to="/products" className={`pp-nav-link ${isActive("/products") ? "pp-nav-link--active" : ""}`}>
+              Products
+            </Link>
+            <Link to="/orders" className={`pp-nav-link ${isActive("/orders") ? "pp-nav-link--active" : ""}`}>
+              Orders
+            </Link>
           </div>
         </div>
-      </nav>
-    </div>
+        <button onClick={logout} className="pp-logout-btn">
+          Logout
+        </button>
+      </div>
+    </nav>
   );
 };
 

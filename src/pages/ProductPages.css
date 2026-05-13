@@ -1,0 +1,452 @@
+@reference "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
+
+/* ===== PRODUCTS PAGE — oklch cream → sage theme ===== */
+
+/* ── Root ── */
+/* .pp-root {
+  @apply min-h-screen font-[Inter,system-ui,sans-serif];
+  background: linear-gradient(135deg, oklch(0.97 0.02 85) 0%, oklch(0.95 0.03 140) 100%);
+  color: oklch(0.22 0.02 90);
+} */
+
+/* ══════════════════════════════════════
+   NAV
+   ══════════════════════════════════════ */
+.pp-nav {
+  @apply sticky top-0 z-50 border-b;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px) saturate(1.6);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  border-color: oklch(0.9 0.03 100);
+}
+.pp-nav-inner {
+  @apply max-w-7xl mx-auto px-6 flex items-center justify-between h-16;
+}
+.pp-nav-brand {
+  @apply flex items-center gap-8;
+}
+.pp-logo {
+  @apply flex items-center gap-2 no-underline;
+}
+.pp-logo-icon {
+  @apply text-xl;
+  color: oklch(0.45 0.12 145);
+}
+.pp-logo-text {
+  @apply text-xl font-extrabold tracking-tight;
+  color: oklch(0.22 0.02 90);
+}
+.pp-nav-links {
+  @apply flex items-center gap-1;
+}
+.pp-nav-link {
+  @apply no-underline text-sm font-medium px-4 py-2 rounded-lg transition-all duration-200;
+  color: oklch(0.45 0.02 90);
+}
+.pp-nav-link:hover {
+  background: oklch(0.93 0.03 140);
+  color: oklch(0.35 0.1 145);
+}
+.pp-nav-link--active {
+  @apply font-semibold;
+  background: oklch(0.88 0.06 140);
+  color: oklch(0.35 0.1 145);
+}
+.pp-logout-btn {
+  @apply text-sm font-medium px-4 py-2 rounded-lg border-none cursor-pointer transition-all duration-200;
+  background: oklch(0.95 0.04 25);
+  color: oklch(0.45 0.12 25);
+}
+.pp-logout-btn:hover {
+  background: oklch(0.9 0.08 25);
+  color: oklch(0.35 0.14 25);
+}
+
+/* ══════════════════════════════════════
+   CONTAINER / HEADER
+   ══════════════════════════════════════ */
+.pp-container {
+  @apply max-w-7xl mx-auto px-6 py-8;
+}
+.pp-header {
+  @apply flex justify-between items-end mb-8;
+}
+.pp-title {
+  @apply text-3xl font-black tracking-tight;
+  color: oklch(0.22 0.02 90);
+}
+.pp-subtitle {
+  @apply text-sm mt-1;
+  color: oklch(0.5 0.02 90);
+}
+.pp-add-btn {
+  @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white border-none cursor-pointer transition-all duration-300;
+  background: oklch(0.45 0.12 145);
+  box-shadow: 0 2px 12px oklch(0.45 0.12 145 / 0.25);
+}
+.pp-add-btn:hover {
+  @apply -translate-y-0.5;
+  background: oklch(0.35 0.1 145);
+  box-shadow: 0 6px 24px oklch(0.45 0.12 145 / 0.35);
+}
+
+/* ══════════════════════════════════════
+   TOOLBAR (Search + Sort)
+   ══════════════════════════════════════ */
+.pp-toolbar {
+  @apply flex items-center justify-between mb-6 gap-4 flex-wrap;
+}
+.pp-select {
+  @apply text-sm font-medium px-4 py-2.5 rounded-xl border outline-none cursor-pointer transition-all duration-200 appearance-none;
+  background: rgba(255, 255, 255, 0.75);
+  border-color: oklch(0.9 0.03 100);
+  color: oklch(0.3 0.02 90);
+  backdrop-filter: blur(10px);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 2.5rem;
+}
+.pp-select:focus {
+  border-color: oklch(0.65 0.1 145);
+  box-shadow: 0 0 0 3px oklch(0.88 0.06 140 / 0.4);
+}
+.pp-search-wrap {
+  @apply relative;
+}
+.pp-search-icon {
+  @apply absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none;
+  color: oklch(0.55 0.02 90);
+}
+.pp-search {
+  @apply text-sm px-4 py-2.5 pl-10 rounded-xl border outline-none w-72 transition-all duration-200;
+  background: rgba(255, 255, 255, 0.75);
+  border-color: oklch(0.9 0.03 100);
+  color: oklch(0.22 0.02 90);
+  backdrop-filter: blur(10px);
+}
+.pp-search::placeholder {
+  color: oklch(0.6 0.02 90);
+}
+.pp-search:focus {
+  border-color: oklch(0.65 0.1 145);
+  box-shadow: 0 0 0 3px oklch(0.88 0.06 140 / 0.4);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* ══════════════════════════════════════
+   PRODUCT GRID
+   ══════════════════════════════════════ */
+.pp-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+}
+
+/* ══════════════════════════════════════
+   PRODUCT CARD
+   ══════════════════════════════════════ */
+.pp-card {
+  @apply rounded-2xl overflow-hidden transition-all duration-[350ms];
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid oklch(0.9 0.03 100);
+  backdrop-filter: blur(12px);
+}
+.pp-card:hover {
+  @apply -translate-y-1;
+  box-shadow:
+    0 16px 48px oklch(0.45 0.12 145 / 0.1),
+    0 4px 12px rgba(0, 0, 0, 0.04);
+  border-color: oklch(0.82 0.06 140);
+}
+
+/* Card image */
+.pp-card-img-wrap {
+  @apply relative overflow-hidden;
+  height: 220px;
+  background: oklch(0.95 0.02 90);
+}
+.pp-card-img {
+  @apply w-full h-full object-cover transition-transform duration-500;
+}
+.pp-card:hover .pp-card-img {
+  @apply scale-105;
+}
+.pp-card-badge {
+  @apply absolute top-3 left-3 text-xs font-bold px-3 py-1 rounded-full;
+}
+.pp-card-badge--oos {
+  background: oklch(0.92 0.06 25);
+  color: oklch(0.45 0.14 25);
+}
+.pp-card-badge--low {
+  background: oklch(0.92 0.06 70);
+  color: oklch(0.45 0.12 70);
+}
+
+/* Card body */
+.pp-card-body {
+  @apply p-5;
+}
+.pp-card-title {
+  @apply text-lg font-bold mb-1.5 truncate;
+  color: oklch(0.22 0.02 90);
+}
+.pp-card-desc {
+  @apply text-sm mb-4 line-clamp-2;
+  color: oklch(0.5 0.02 90);
+  line-height: 1.6;
+}
+.pp-card-footer {
+  @apply flex items-end justify-between;
+}
+.pp-card-price-wrap {
+  @apply flex flex-col;
+}
+.pp-card-price {
+  @apply text-xl font-extrabold;
+  color: oklch(0.4 0.12 145);
+}
+.pp-card-stock {
+  @apply text-xs font-medium mt-0.5;
+  color: oklch(0.55 0.02 90);
+}
+
+/* Card actions */
+.pp-card-actions {
+  @apply flex items-center gap-2;
+}
+.pp-icon-btn {
+  @apply w-9 h-9 rounded-lg flex items-center justify-center border-none cursor-pointer transition-all duration-200;
+}
+.pp-icon-btn--edit {
+  background: oklch(0.92 0.04 140);
+  color: oklch(0.4 0.12 145);
+}
+.pp-icon-btn--edit:hover {
+  background: oklch(0.85 0.08 140);
+  @apply -translate-y-0.5;
+}
+.pp-icon-btn--delete {
+  background: oklch(0.95 0.04 25);
+  color: oklch(0.5 0.12 25);
+}
+.pp-icon-btn--delete:hover {
+  background: oklch(0.88 0.1 25);
+  @apply -translate-y-0.5;
+}
+.pp-order-btn {
+  @apply inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold text-white border-none cursor-pointer transition-all duration-200;
+  background: oklch(0.45 0.12 145);
+}
+.pp-order-btn:hover {
+  background: oklch(0.35 0.1 145);
+  @apply -translate-y-0.5;
+  box-shadow: 0 4px 14px oklch(0.45 0.12 145 / 0.3);
+}
+.pp-order-btn:disabled {
+  @apply opacity-50 cursor-not-allowed translate-y-0;
+  box-shadow: none;
+}
+
+/* ══════════════════════════════════════
+   STATES: loading / error / empty
+   ══════════════════════════════════════ */
+.pp-loading {
+  @apply flex flex-col items-center justify-center py-24 gap-4;
+}
+.pp-spinner {
+  @apply w-10 h-10 rounded-full animate-spin;
+  border: 3px solid oklch(0.9 0.03 100);
+  border-top-color: oklch(0.45 0.12 145);
+}
+.pp-loading-text {
+  @apply text-sm font-medium;
+  color: oklch(0.5 0.02 90);
+}
+
+.pp-error {
+  @apply max-w-md mx-auto my-12 p-6 rounded-2xl text-center;
+  background: oklch(0.97 0.03 25);
+  border: 1px solid oklch(0.9 0.06 25);
+}
+.pp-error-text {
+  @apply text-sm font-medium mb-3;
+  color: oklch(0.45 0.14 25);
+}
+.pp-error-retry {
+  @apply text-sm font-semibold px-4 py-2 rounded-lg border-none cursor-pointer transition-colors duration-200;
+  background: oklch(0.9 0.08 25);
+  color: oklch(0.4 0.14 25);
+}
+.pp-error-retry:hover {
+  background: oklch(0.85 0.1 25);
+}
+
+.pp-empty {
+  @apply text-center py-16;
+}
+.pp-empty-icon {
+  @apply text-5xl mb-4;
+}
+.pp-empty-title {
+  @apply text-lg font-bold mb-1;
+  color: oklch(0.3 0.02 90);
+}
+.pp-empty-text {
+  @apply text-sm;
+  color: oklch(0.5 0.02 90);
+}
+.pp-clear-btn {
+  @apply mt-3 text-sm font-semibold px-4 py-2 rounded-lg border-none cursor-pointer transition-colors duration-200;
+  background: oklch(0.88 0.06 140);
+  color: oklch(0.35 0.1 145);
+}
+.pp-clear-btn:hover {
+  background: oklch(0.82 0.08 140);
+}
+
+/* ══════════════════════════════════════
+   MODAL
+   ══════════════════════════════════════ */
+.pp-modal-overlay {
+  @apply fixed inset-0 z-50 flex items-center justify-center p-4;
+  background: oklch(0.15 0.02 90 / 0.6);
+  backdrop-filter: blur(6px);
+}
+.pp-modal {
+  @apply relative w-full max-w-lg rounded-2xl overflow-hidden;
+  background: oklch(0.99 0.01 90);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.15);
+  animation: pp-modal-in 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+@keyframes pp-modal-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+.pp-modal-close {
+  @apply absolute top-4 right-4 w-8 h-8 rounded-lg flex items-center justify-center border-none cursor-pointer transition-all duration-200 z-10;
+  background: oklch(0.93 0.02 90);
+  color: oklch(0.45 0.02 90);
+}
+.pp-modal-close:hover {
+  background: oklch(0.88 0.04 25);
+  color: oklch(0.4 0.14 25);
+}
+
+/* ══════════════════════════════════════
+   PRODUCT FORM
+   ══════════════════════════════════════ */
+.pp-form-card {
+  @apply p-6;
+}
+.pp-form-title {
+  @apply text-xl font-bold mb-5;
+  color: oklch(0.22 0.02 90);
+}
+.pp-form {
+  @apply flex flex-col gap-4;
+}
+.pp-form-group {
+  @apply flex flex-col gap-1.5;
+}
+.pp-form-row {
+  @apply grid grid-cols-2 gap-4;
+}
+.pp-label {
+  @apply text-sm font-semibold;
+  color: oklch(0.35 0.02 90);
+}
+.pp-input {
+  @apply text-sm px-4 py-2.5 rounded-xl border outline-none transition-all duration-200;
+  background: rgba(255, 255, 255, 0.8);
+  border-color: oklch(0.9 0.03 100);
+  color: oklch(0.22 0.02 90);
+}
+.pp-input::placeholder {
+  color: oklch(0.6 0.02 90);
+}
+.pp-input:focus {
+  border-color: oklch(0.65 0.1 145);
+  box-shadow: 0 0 0 3px oklch(0.88 0.06 140 / 0.4);
+}
+.pp-textarea {
+  @apply resize-y min-h-[80px];
+}
+
+/* File upload */
+.pp-file-upload {
+  @apply flex items-center justify-center rounded-xl border-2 border-dashed cursor-pointer transition-all duration-200 overflow-hidden;
+  border-color: oklch(0.88 0.03 100);
+  height: 160px;
+  background: oklch(0.97 0.01 90);
+}
+.pp-file-upload:hover {
+  border-color: oklch(0.7 0.08 145);
+  background: oklch(0.95 0.03 140);
+}
+.pp-file-preview {
+  @apply w-full h-full object-cover;
+}
+.pp-file-placeholder {
+  @apply flex flex-col items-center gap-2 text-sm font-medium;
+  color: oklch(0.55 0.02 90);
+}
+
+.pp-form-error {
+  @apply text-sm font-medium px-3 py-2 rounded-lg;
+  background: oklch(0.95 0.04 25);
+  color: oklch(0.45 0.14 25);
+}
+
+.pp-form-actions {
+  @apply flex gap-3 mt-2;
+}
+.pp-submit-btn {
+  @apply flex-1 px-4 py-2.5 rounded-xl text-sm font-semibold text-white border-none cursor-pointer transition-all duration-200;
+  background: oklch(0.45 0.12 145);
+}
+.pp-submit-btn:hover {
+  background: oklch(0.35 0.1 145);
+  box-shadow: 0 4px 14px oklch(0.45 0.12 145 / 0.3);
+}
+.pp-submit-btn:disabled {
+  @apply opacity-50 cursor-not-allowed;
+}
+.pp-cancel-btn {
+  @apply flex-1 px-4 py-2.5 rounded-xl text-sm font-semibold border-none cursor-pointer transition-all duration-200;
+  background: oklch(0.93 0.02 90);
+  color: oklch(0.35 0.02 90);
+}
+.pp-cancel-btn:hover {
+  background: oklch(0.88 0.03 90);
+}
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════ */
+@media (max-width: 768px) {
+  .pp-header {
+    @apply flex-col items-start gap-4;
+  }
+  .pp-toolbar {
+    @apply flex-col items-stretch;
+  }
+  .pp-search {
+    @apply w-full;
+  }
+  .pp-nav-links {
+    @apply gap-0;
+  }
+  .pp-nav-link {
+    @apply px-2 text-xs;
+  }
+  .pp-form-row {
+    @apply grid-cols-1;
+  }
+}

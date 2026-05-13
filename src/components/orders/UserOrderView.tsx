@@ -1,14 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import type { Order } from "../../types/Ordertypes";
-import { Loader2, Package, MapPin, CreditCard, Calendar, Eye } from "lucide-react";
+import { Loader2, Package, MapPin, CreditCard, Calendar, Eye, PencilIcon } from "lucide-react";
 import { statusConfig } from "../../constants/order";
-
+import { updateMyOrder, updateOrderStatus } from "../../services/orderApi";
+import toast from "react-hot-toast";
+import { useOrderStore } from "../../store/orderStore";
 interface Props {
   orders: Order[];
   loading: boolean;
 }
 
 const UserOrderView = ({ orders, loading }: Props) => {
+  const [editingShippingId, setOpenEditShippingId] = useState<string | null>(null);
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-US", {
       year: "numeric",
@@ -17,6 +20,33 @@ const UserOrderView = ({ orders, loading }: Props) => {
       hour: "2-digit",
       minute: "2-digit",
     });
+  };
+
+  const [shippingAddress, setShippingAddress] = useState("");
+
+  const handleOpenEditShippingAddress = (id: string) => {
+    if (editingShippingId === id) {
+      setOpenEditShippingId(null);
+    } else {
+      setOpenEditShippingId(id);
+    }
+  };
+
+  const cancelOrderr = useOrderStore((state) => state.cancelOrder);
+  const cancelOrder = (id: string) => {
+    cancelOrderr(id);
+  };
+
+  const updateOrder = async (id: string, shipping_address: string) => {
+    console.log("updating");
+    try {
+      await updateMyOrder({ id, shipping_address });
+
+      setOpenEditShippingId(null);
+      window.location.reload(); // Refresh the page to show updated data, can be optimized by updating state instead of full reload
+    } catch (error) {
+      console.error("Error updating order:", error);
+    }
   };
 
   if (loading) {
@@ -69,7 +99,7 @@ const UserOrderView = ({ orders, loading }: Props) => {
           return (
             <div
               key={order.id}
-              className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-[1.02] overflow-hidden border border-gray-100 animate-in slide-in-from-bottom-5"
+              className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-scroll border border-gray-100 animate-in slide-in-from-bottom-5"
               style={{ animationDelay: `${index * 100}ms` }}
             >
               {/* Order Header */}
@@ -95,22 +125,25 @@ const UserOrderView = ({ orders, loading }: Props) => {
                       <StatusIcon className="h-3 w-3 inline mr-1" />
                       {status.label}
                     </div>
-                    <button
-                      className="p-2 hover:bg-gray-200 rounded-full transition-all duration-300 hover:scale-110"
-                      title="View Details"
-                    >
-                      <Eye className="h-5 w-5 text-gray-600" />
-                    </button>
+                    {order.status === "PENDING" && (
+                      <button
+                        onClick={() => cancelOrder(order.id)}
+                        className="px-2 py-1 hover:bg-red-800 text-sm bg-red-400 text-white rounded-full transition-all duration-300 cursor-pointer hover:scale-101"
+                        title="Cancel Order"
+                      >
+                        Cancel Order
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
 
               {/* Order Body */}
               <div className="p-6 ">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
                   {/* Total Amount */}
-                  <div className="flex items-center gap-3 group/item">
-                    <div className="p-2 bg-green-100 rounded-lg group-hover/item:bg-green-200 transition-all duration-300">
+                  <div className="flex items-start gap-3 group/item">
+                    <div className="w-10 h-10 flex items-center justify-center bg-green-100 rounded-lg group-hover/item:bg-green-200 transition-all duration-300">
                       <span className="text-xl">$</span>
                     </div>
                     <div>
@@ -120,7 +153,7 @@ const UserOrderView = ({ orders, loading }: Props) => {
                   </div>
 
                   {/* Payment Method */}
-                  <div className="flex items-center gap-3 group/item">
+                  <div className="flex items-start gap-3 group/item">
                     <div className="p-2 bg-blue-100 rounded-lg group-hover/item:bg-blue-200 transition-all duration-300">
                       <CreditCard className="h-5 w-5 text-blue-600" />
                     </div>
@@ -131,15 +164,53 @@ const UserOrderView = ({ orders, loading }: Props) => {
                   </div>
 
                   {/* Shipping Address */}
-                  <div className="flex items-start gap-3  group/item md:col-span-2 lg:col-span-1">
+                  <div className="flex items-start gap-2   group/item md:col-span-2 lg:col-span-1">
                     <div className="p-2 bg-orange-100 rounded-lg group-hover/item:bg-orange-200 transition-all duration-300">
                       <MapPin className="h-5 w-5 text-orange-600" />
                     </div>
                     <div className="flex-1">
-                      <p className="text-xs text-gray-500 uppercase tracking-wide">Shipping Address</p>
-                      <p className="text-gray-800 text-sm wrap-break-words  whitespace-pre-wrap">
-                        {order.shipping_address}
-                      </p>
+                      <div className="flex items-center justify-between ">
+                        <p className="text-xs text-gray-500 uppercase tracking-wide ">Shipping Address</p>
+                        {order.status === "PENDING" && (
+                          <div
+                            className="flex items-center gap-1"
+                            onClick={() => handleOpenEditShippingAddress(order.id)}
+                          >
+                            <PencilIcon
+                              className={`h-4 w-4  cursor-pointer ${
+                                editingShippingId === order.id ? "text-red-600" : "text-blue-600"
+                              }`}
+                            />
+                            <p
+                              className={`text-xs cursor-pointer ${
+                                editingShippingId === order.id ? "text-red-600" : "text-blue-600"
+                              }`}
+                            >
+                              Edit
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex items-center ">
+                        {editingShippingId === order.id ? (
+                          <div className="flex gap-2 items-center mt-2">
+                            <input
+                              type="text"
+                              defaultValue={order.shipping_address}
+                              onChange={(e) => setShippingAddress(e.target.value)}
+                              className="border w-[250px] border-gray-300 ps-2 rounded-sm "
+                            />
+                            <button
+                              onClick={() => updateOrder(order.id, shippingAddress)}
+                              className="bg-green-600 rounded-sm p-1 text-white cursor-pointer hover:bg-green-700 transition-all duration-300"
+                            >
+                              Save
+                            </button>
+                          </div>
+                        ) : (
+                          <p className="text-gray-800 text-sm break-all max-w-[350px] ">{order.shipping_address}</p>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -194,5 +265,4 @@ const UserOrderView = ({ orders, loading }: Props) => {
     </div>
   );
 };
-
 export default UserOrderView;

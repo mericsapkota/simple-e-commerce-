@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import type { Product } from "../../types/product";
 import { PhotoIcon } from "@heroicons/react/24/outline";
 import { uploadImageToCloudinary } from "../../utils/fileUpload";
+import toast from "react-hot-toast";
 
 interface ProductFormProps {
   initialData?: Partial<Product>;
@@ -27,11 +28,13 @@ export const ProductForm = ({ initialData, onSubmit, onCancel }: ProductFormProp
   const [error, setError] = useState("");
   const [imagePreview, setImagePreview] = useState(initialData?.imageUrl || "");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  console.log(initialData);
+
+  const [newImage, setNewImage] = useState(false);
+
   const handleSubmit = async (e: React.FormEvent) => {
+    const loadingToast = toast.loading("Uploading...");
     e.preventDefault();
     setLoading(true);
-    setError("");
 
     // Validation
     if (!formData.name.trim()) {
@@ -51,7 +54,7 @@ export const ProductForm = ({ initialData, onSubmit, onCancel }: ProductFormProp
     }
 
     try {
-      if (!formData.imageUrl) {
+      if (newImage) {
         if (!selectedFile) {
           setError("Product image is required");
           setLoading(false);
@@ -74,42 +77,42 @@ export const ProductForm = ({ initialData, onSubmit, onCancel }: ProductFormProp
       }
 
       await onSubmit(formData);
+      toast.success("Product saved successfully", { id: loadingToast });
     } catch (err: any) {
       setError(err.message || "Failed to save product");
+      toast.error("Failed to save product", { id: loadingToast });
     } finally {
       setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 ">
-      <h3 className="text-xl font-semibold mb-4">{initialData?.id ? "Edit Product" : "Create New Product"}</h3>
+    <div className="pp-form-card">
+      <h3 className="pp-form-title">{initialData?.id ? "Edit Product" : "Create New Product"}</h3>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Product Name *</label>
+      <form onSubmit={handleSubmit} className="pp-form">
+        <div className="pp-form-group">
+          <label className="pp-label">Product Name *</label>
           <input
             type="text"
             required
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            className="pp-input"
             placeholder="Enter product name"
           />
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Image</label>
-
-          <label
-            htmlFor="file-upload"
-            className="flex items-center justify-center h-50 w-50 rounded-md border border-gray-300 bg-white hover:bg-gray-50 cursor-pointer"
-          >
+        <div className="pp-form-group">
+          <label className="pp-label">Image</label>
+          <label htmlFor="file-upload" className="pp-file-upload">
             {imagePreview ? (
-              <img src={imagePreview} alt="Preview" className="h-full w-full object-cover rounded-md" />
+              <img src={imagePreview} alt="Preview" className="pp-file-preview" />
             ) : (
-              <PhotoIcon className="h-6 w-6 text-gray-400" />
+              <div className="pp-file-placeholder">
+                <PhotoIcon className="h-8 w-8" />
+                <span>Click to upload</span>
+              </div>
             )}
           </label>
           <input
@@ -118,64 +121,68 @@ export const ProductForm = ({ initialData, onSubmit, onCancel }: ProductFormProp
             className="hidden"
             onChange={(e) => {
               const file = e.target.files?.[0];
-
+              setNewImage(true);
               setImagePreview(file ? URL.createObjectURL(file) : "");
               setSelectedFile(file || null);
             }}
           />
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Price *</label>
-          <input
-            type="number"
-            step="0.01"
-            required
-            value={formData.price}
-            onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            placeholder="0.00"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Quantity *</label>
-          <input
-            type="number"
-            required
-            value={formData.quantity}
-            onChange={(e) => setFormData({ ...formData, quantity: parseInt(e.target.value) })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            placeholder="0"
-          />
+        <div className="pp-form-row">
+          <div className="pp-form-group">
+            <label className="pp-label">Price *</label>
+            <input
+              type="number"
+              step="0.01"
+              required
+              value={formData.price}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  price: parseFloat(e.target.value),
+                })
+              }
+              className="pp-input"
+              placeholder="0.00"
+            />
+          </div>
+          <div className="pp-form-group">
+            <label className="pp-label">Quantity *</label>
+            <input
+              type="number"
+              required
+              value={formData.quantity}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  quantity: parseInt(e.target.value),
+                })
+              }
+              className="pp-input"
+              placeholder="0"
+            />
+          </div>
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Description *</label>
+        <div className="pp-form-group">
+          <label className="pp-label">Description *</label>
           <textarea
             required
             rows={3}
             value={formData.description}
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            className="pp-input pp-textarea"
             placeholder="Enter product description"
           />
         </div>
 
-        {error && <div className="text-red-600 text-sm">{error}</div>}
+        {error && <div className="pp-form-error">{error}</div>}
 
-        <div className="flex space-x-3">
-          <button
-            type="submit"
-            disabled={loading}
-            className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
-          >
+        <div className="pp-form-actions">
+          <button type="submit" disabled={loading} className="pp-submit-btn">
             {loading ? "Saving..." : initialData?.id ? "Update" : "Create"}
           </button>
-          <button
-            type="button"
-            onClick={onCancel}
-            className="flex-1 px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
-          >
+          <button type="button" onClick={onCancel} className="pp-cancel-btn">
             Cancel
           </button>
         </div>

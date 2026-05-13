@@ -7,6 +7,7 @@ import type {
   Order,
   UpdateOrderResponse,
 } from "../types/Ordertypes";
+import type { string } from "zod";
 
 export const CREATE_ORDER_MUTATION = gql`
   mutation CreateOrder($input: CreateOrderInput!) {
@@ -82,31 +83,10 @@ export const GET_ORDER_BY_ID_QUERY = gql`
   }
 `;
 
-export const UPDATE_ORDER_MUTATION = gql`
-  mutation UpdateOrder($id: ID!, $shipping_address: String, $payment_method: String, $status: String, $quantity: Int) {
-    updateOrder(
-      id: $id
-      shipping_address: $shipping_address
-      payment_method: $payment_method
-      status: $status
-      quantity: $quantity
-    ) {
-      id
-      user_id
-      order_date
-      total_amount
+export const updateMyOrderMutation = gql`
+  mutation UpdateMyOrder($updateMyOrderId: String!, $shippingAddress: String!) {
+    updateMyOrder(id: $updateMyOrderId, shipping_address: $shippingAddress) {
       status
-      shipping_address
-      payment_method
-      created_at
-      updated_at
-      order_items {
-        id
-        product_id
-        quantity
-        price
-        subtotal
-      }
     }
   }
 `;
@@ -130,12 +110,27 @@ const getAllOrdersMutatioin = gql`
     }
   }
 `;
-const updateMyOrderMutation = gql``;
 
 export const DELETE_ORDER_MUTATION = gql`
-  mutation DeleteOrder($id: ID!) {
-    deleteOrder(id: $id) {
+  mutation DeleteOrder($deleteOrderId: String!) {
+    deleteOrder(id: $deleteOrderId) {
       id
+      order_date
+      total_amount
+      status
+      shipping_address
+      payment_method
+      created_at
+      order_items {
+        quantity
+        product {
+          id
+          name
+          image
+        }
+        price
+        subtotal
+      }
     }
   }
 `;
@@ -190,11 +185,17 @@ export const getOrderById = async (id: string): Promise<Order> => {
   return data.order;
 };
 
-export const updateOrder = async (input: UpdateOrderInput): Promise<Order> => {
-  const data = await graphqlClient.request<{ updateOrder: Order }>(UPDATE_ORDER_MUTATION, input);
-  return data.updateOrder;
+export const updateMyOrder = async (input: UpdateOrderInput): Promise<Order> => {
+  const data = await graphqlClient.request<{ updateMyOrder: Order }>(updateMyOrderMutation, {
+    updateMyOrderId: input.id,
+    shippingAddress: input.shipping_address,
+  });
+  return data.updateMyOrder;
 };
 
-export const deleteOrder = async (id: string): Promise<void> => {
-  await graphqlClient.request(DELETE_ORDER_MUTATION, { id });
+export const cancelOrder = async (id: string): Promise<Order> => {
+  const data = await graphqlClient.request<{ deleteOrder: Order }>(DELETE_ORDER_MUTATION, {
+    deleteOrderId: id,
+  });
+  return data.deleteOrder;
 };

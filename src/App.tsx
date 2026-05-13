@@ -9,15 +9,18 @@ import { Dashboard } from "./pages/Dashboard";
 import { ProductsPage } from "./pages/ProductPages";
 import AddOrderModal from "./components/orders/AddOrderModal";
 import OrderPage from "./pages/OrderPage";
+import { ForgotPasswordPage } from "./pages/ForgotPasswordForm";
+import { Toaster } from "react-hot-toast";
+import LandingPage from "./pages/LandingPage";
 
 function App() {
-  const { initializeAuth, isInitialized, isAuthenticated } = useAuthStore();
+  const { initializeAuth, isInitialized } = useAuthStore();
 
   useEffect(() => {
     if (!isInitialized) {
       initializeAuth();
     }
-  }, [isAuthenticated]);
+  }, [initializeAuth, isInitialized]);
   //test
   return (
     <>
@@ -25,6 +28,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignupForm />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route
             path="/dashboard"
             element={
@@ -49,10 +53,11 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="/" element={<LoginForm />} />
+          <Route path="/" element={<LandingPage />} />
         </Routes>
       </BrowserRouter>
       <AddOrderModal />
+      <Toaster position="top-right" />
     </>
   );
 }

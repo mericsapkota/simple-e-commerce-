@@ -8,7 +8,7 @@ export interface OrderItem {
     id: string;
     name: string;
     image: string;
-  }
+  };
   quantity: number;
   price: number;
   subtotal: number;
@@ -47,7 +47,8 @@ export interface CreateOrderResponse {
 }
 
 export interface UpdateOrderResponse {
-  id:string;
-  status:OrderStatus;
-  updated_at:string;
+  id: string;
+  status: OrderStatus;
+  updated_at: string;
+  shipping_address?: string;
 }

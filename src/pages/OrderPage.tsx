@@ -12,18 +12,26 @@ const OrderPage = () => {
   const fetchAllOrders = useOrderStore((state) => state.fetchAllOrders);
   const updateOrderStatus = useOrderStore((state) => state.updateOrderStatus);
   const loading = useOrderStore((state) => state.isLoading);
+  const getRole = useAuthStore((state) => state.getRole);
   const role = useAuthStore((state) => state.role);
   const fetchMyOrders = useOrderStore((state) => state.fetchMyOrders);
   const [showStatusMenu, setShowStatusMenu] = useState<string | null>(null);
 
   useEffect(() => {
-    if (role === "ADMIN") {
-      handleFetchOrdersForAdmin();
-    } else {
-      console.log("I am in user");
-      handleFetchOrdersForUser();
-    }
-  }, []);
+    const fetchUserRole = async () => {
+      await getRole();
+      console.log(role, "role latest");
+      if (role === "ADMIN") {
+        console.log("i ama admin");
+        handleFetchOrdersForAdmin();
+      } else if (role === "USER") {
+        console.log("I am in user");
+        handleFetchOrdersForUser();
+      }
+    };
+
+    fetchUserRole();
+  }, [role]);
 
   const handleFetchOrdersForAdmin = async () => {
     await fetchAllOrders();
@@ -41,7 +49,8 @@ const OrderPage = () => {
   return (
     <div>
       <Header />
-      {role === "ADMIN" ? (
+
+      {role == "ADMIN" ? (
         <AdminOrderView
           handleFetchOrders={handleFetchOrdersForAdmin}
           loading={loading}
