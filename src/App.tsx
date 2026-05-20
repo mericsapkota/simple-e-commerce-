@@ -12,6 +12,7 @@ import OrderPage from "./pages/OrderPage";
 import { ForgotPasswordPage } from "./pages/ForgotPasswordForm";
 import { Toaster } from "react-hot-toast";
 import LandingPage from "./pages/LandingPage";
+import CartPage from "./pages/CartPage";
 
 function App() {
   const { initializeAuth, isInitialized } = useAuthStore();
@@ -50,6 +51,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <OrderPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/cart"
+            element={
+              <ProtectedRoute>
+                <CartPage />
               </ProtectedRoute>
             }
           />

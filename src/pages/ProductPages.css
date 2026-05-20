@@ -1,107 +1,85 @@
 @reference "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
 
-/* ===== PRODUCTS PAGE — oklch cream → sage theme ===== */
+/* ===== PRODUCTS PAGE — Lumina Theme ===== */
+
+:root {
+  --pp-bg: oklch(0.97 0.02 90);
+  --pp-surface: oklch(0.99 0.01 90);
+  --pp-primary: oklch(0.45 0.12 145);
+  --pp-primary-l: oklch(0.88 0.06 140);
+  --pp-primary-d: oklch(0.35 0.1 145);
+  --pp-accent: oklch(0.5 0.14 85);
+  --pp-accent-l: oklch(0.92 0.05 85);
+  --pp-text: oklch(0.22 0.02 90);
+  --pp-text-sub: oklch(0.45 0.02 90);
+  --pp-border: oklch(0.9 0.03 100);
+  --pp-glass: rgba(255, 255, 255, 0.65);
+  --pp-radius: 16px;
+}
 
 /* ── Root ── */
-/* .pp-root {
-  @apply min-h-screen font-[Inter,system-ui,sans-serif];
-  background: linear-gradient(135deg, oklch(0.97 0.02 85) 0%, oklch(0.95 0.03 140) 100%);
-  color: oklch(0.22 0.02 90);
-} */
+.pp-root {
+  @apply min-h-screen font-[Inter,system-ui,sans-serif] overflow-x-hidden;
+  background: var(--pp-bg);
+  color: var(--pp-text);
+}
 
-/* ══════════════════════════════════════
-   NAV
-   ══════════════════════════════════════ */
 .pp-nav {
-  @apply sticky top-0 z-50 border-b;
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(20px) saturate(1.6);
-  -webkit-backdrop-filter: blur(20px) saturate(1.6);
-  border-color: oklch(0.9 0.03 100);
+  @apply w-full py-4 mb-8;
+  background: var(--pp-surface);
+  box-shadow: 0 2px 12px var(--pp-border) / 0.1;
 }
 .pp-nav-inner {
-  @apply max-w-7xl mx-auto px-6 flex items-center justify-between h-16;
-}
-.pp-nav-brand {
-  @apply flex items-center gap-8;
+  @apply max-w-7xl mx-auto px-8 flex items-center justify-between;
 }
 .pp-logo {
-  @apply flex items-center gap-2 no-underline;
+  @apply flex text-xl font-bold;
+  color: var(--pp-primary);
 }
-.pp-logo-icon {
-  @apply text-xl;
-  color: oklch(0.45 0.12 145);
+.pp-nav-brand {
+  @apply text-sm font-bold flex gap-5;
+  color: var(--pp-primary);
 }
-.pp-logo-text {
-  @apply text-xl font-extrabold tracking-tight;
-  color: oklch(0.22 0.02 90);
-}
-.pp-nav-links {
-  @apply flex items-center gap-1;
-}
-.pp-nav-link {
-  @apply no-underline text-sm font-medium px-4 py-2 rounded-lg transition-all duration-200;
-  color: oklch(0.45 0.02 90);
-}
-.pp-nav-link:hover {
-  background: oklch(0.93 0.03 140);
-  color: oklch(0.35 0.1 145);
-}
-.pp-nav-link--active {
-  @apply font-semibold;
-  background: oklch(0.88 0.06 140);
-  color: oklch(0.35 0.1 145);
-}
-.pp-logout-btn {
-  @apply text-sm font-medium px-4 py-2 rounded-lg border-none cursor-pointer transition-all duration-200;
-  background: oklch(0.95 0.04 25);
-  color: oklch(0.45 0.12 25);
-}
-.pp-logout-btn:hover {
-  background: oklch(0.9 0.08 25);
-  color: oklch(0.35 0.14 25);
-}
-
 /* ══════════════════════════════════════
    CONTAINER / HEADER
    ══════════════════════════════════════ */
 .pp-container {
-  @apply max-w-7xl mx-auto px-6 py-8;
+  @apply max-w-7xl mx-auto px-8 py-16;
 }
 .pp-header {
-  @apply flex justify-between items-end mb-8;
+  @apply flex justify-between items-end mb-12;
 }
 .pp-title {
-  @apply text-3xl font-black tracking-tight;
-  color: oklch(0.22 0.02 90);
+  @apply text-4xl font-black tracking-tight mb-2;
+  color: var(--pp-text);
 }
 .pp-subtitle {
-  @apply text-sm mt-1;
-  color: oklch(0.5 0.02 90);
+  @apply text-sm font-medium;
+  color: var(--pp-text-sub);
 }
 .pp-add-btn {
-  @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white border-none cursor-pointer transition-all duration-300;
-  background: oklch(0.45 0.12 145);
-  box-shadow: 0 2px 12px oklch(0.45 0.12 145 / 0.25);
+  @apply inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white border-none cursor-pointer transition-all duration-300;
+  background: var(--pp-primary);
+  box-shadow: 0 2px 12px var(--pp-primary) / 0.25;
 }
 .pp-add-btn:hover {
   @apply -translate-y-0.5;
-  background: oklch(0.35 0.1 145);
-  box-shadow: 0 6px 24px oklch(0.45 0.12 145 / 0.35);
+  background: var(--pp-primary-d);
+  box-shadow: 0 6px 24px var(--pp-primary) / 0.35;
 }
 
 /* ══════════════════════════════════════
    TOOLBAR (Search + Sort)
    ══════════════════════════════════════ */
 .pp-toolbar {
-  @apply flex items-center justify-between mb-6 gap-4 flex-wrap;
+  @apply flex items-center justify-between mb-8 gap-4 flex-wrap;
 }
 .pp-select {
   @apply text-sm font-medium px-4 py-2.5 rounded-xl border outline-none cursor-pointer transition-all duration-200 appearance-none;
-  background: rgba(255, 255, 255, 0.75);
-  border-color: oklch(0.9 0.03 100);
-  color: oklch(0.3 0.02 90);
+  background: var(--pp-glass);
+  border-color: var(--pp-border);
+  color: var(--pp-text);
   backdrop-filter: blur(10px);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
@@ -109,29 +87,30 @@
   padding-right: 2.5rem;
 }
 .pp-select:focus {
-  border-color: oklch(0.65 0.1 145);
-  box-shadow: 0 0 0 3px oklch(0.88 0.06 140 / 0.4);
+  border-color: var(--pp-primary);
+  box-shadow: 0 0 0 3px var(--pp-primary-l) / 0.4;
 }
 .pp-search-wrap {
   @apply relative;
 }
 .pp-search-icon {
   @apply absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none;
-  color: oklch(0.55 0.02 90);
+  color: var(--pp-text-sub);
 }
 .pp-search {
-  @apply text-sm px-4 py-2.5 pl-10 rounded-xl border outline-none w-72 transition-all duration-200;
-  background: rgba(255, 255, 255, 0.75);
-  border-color: oklch(0.9 0.03 100);
-  color: oklch(0.22 0.02 90);
+  @apply text-sm px-4 py-2.5 pl-10 rounded-xl border outline-none transition-all duration-200;
+  background: var(--pp-glass);
+  border-color: var(--pp-border);
+  color: var(--pp-text);
   backdrop-filter: blur(10px);
+  width: 18rem;
 }
 .pp-search::placeholder {
-  color: oklch(0.6 0.02 90);
+  color: var(--pp-text-sub);
 }
 .pp-search:focus {
-  border-color: oklch(0.65 0.1 145);
-  box-shadow: 0 0 0 3px oklch(0.88 0.06 140 / 0.4);
+  border-color: var(--pp-primary);
+  box-shadow: 0 0 0 3px var(--pp-primary-l) / 0.4;
   background: rgba(255, 255, 255, 0.9);
 }
 
@@ -139,76 +118,76 @@
    PRODUCT GRID
    ══════════════════════════════════════ */
 .pp-grid {
-  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8;
 }
 
 /* ══════════════════════════════════════
    PRODUCT CARD
    ══════════════════════════════════════ */
 .pp-card {
-  @apply rounded-2xl overflow-hidden transition-all duration-[350ms];
-  background: rgba(255, 255, 255, 0.75);
-  border: 1px solid oklch(0.9 0.03 100);
-  backdrop-filter: blur(12px);
+  @apply rounded-[var(--pp-radius)] overflow-hidden transition-all duration-[350ms] border;
+  background: var(--pp-glass);
+  border-color: var(--pp-border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 .pp-card:hover {
   @apply -translate-y-1;
   box-shadow:
-    0 16px 48px oklch(0.45 0.12 145 / 0.1),
-    0 4px 12px rgba(0, 0, 0, 0.04);
-  border-color: oklch(0.82 0.06 140);
+    0 12px 40px var(--pp-primary) / 0.1,
+    0 4px 12px rgba(0, 0, 0, 0.06);
+  border-color: var(--pp-primary-l);
 }
 
 /* Card image */
 .pp-card-img-wrap {
   @apply relative overflow-hidden;
   height: 220px;
-  background: oklch(0.95 0.02 90);
+  background: var(--pp-primary-l);
 }
 .pp-card-img {
   @apply w-full h-full object-cover transition-transform duration-500;
 }
 .pp-card:hover .pp-card-img {
-  @apply scale-105;
+  @apply scale-110;
 }
 .pp-card-badge {
-  @apply absolute top-3 left-3 text-xs font-bold px-3 py-1 rounded-full;
+  @apply absolute top-4 left-4 text-xs font-bold px-3 py-1.5 rounded-full backdrop-blur-md;
+  background: rgba(255, 255, 255, 0.9);
 }
 .pp-card-badge--oos {
-  background: oklch(0.92 0.06 25);
   color: oklch(0.45 0.14 25);
 }
 .pp-card-badge--low {
-  background: oklch(0.92 0.06 70);
   color: oklch(0.45 0.12 70);
 }
 
 /* Card body */
 .pp-card-body {
-  @apply p-5;
+  @apply p-6;
 }
 .pp-card-title {
-  @apply text-lg font-bold mb-1.5 truncate;
-  color: oklch(0.22 0.02 90);
+  @apply text-lg font-bold mb-2 truncate;
+  color: var(--pp-text);
 }
 .pp-card-desc {
   @apply text-sm mb-4 line-clamp-2;
-  color: oklch(0.5 0.02 90);
+  color: var(--pp-text-sub);
   line-height: 1.6;
 }
 .pp-card-footer {
-  @apply flex items-end justify-between;
+  @apply flex items-end justify-between gap-3;
 }
 .pp-card-price-wrap {
   @apply flex flex-col;
 }
 .pp-card-price {
-  @apply text-xl font-extrabold;
-  color: oklch(0.4 0.12 145);
+  @apply text-2xl font-extrabold;
+  color: var(--pp-primary);
 }
 .pp-card-stock {
   @apply text-xs font-medium mt-0.5;
-  color: oklch(0.55 0.02 90);
+  color: var(--pp-text-sub);
 }
 
 /* Card actions */
@@ -219,11 +198,11 @@
   @apply w-9 h-9 rounded-lg flex items-center justify-center border-none cursor-pointer transition-all duration-200;
 }
 .pp-icon-btn--edit {
-  background: oklch(0.92 0.04 140);
-  color: oklch(0.4 0.12 145);
+  background: var(--pp-primary-l);
+  color: var(--pp-primary);
 }
 .pp-icon-btn--edit:hover {
-  background: oklch(0.85 0.08 140);
+  background: var(--pp-primary-l) / 0.7;
   @apply -translate-y-0.5;
 }
 .pp-icon-btn--delete {
@@ -235,13 +214,13 @@
   @apply -translate-y-0.5;
 }
 .pp-order-btn {
-  @apply inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold text-white border-none cursor-pointer transition-all duration-200;
-  background: oklch(0.45 0.12 145);
+  @apply inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white border-none cursor-pointer transition-all duration-200;
+  background: var(--pp-primary);
 }
 .pp-order-btn:hover {
-  background: oklch(0.35 0.1 145);
+  background: var(--pp-primary-d);
   @apply -translate-y-0.5;
-  box-shadow: 0 4px 14px oklch(0.45 0.12 145 / 0.3);
+  box-shadow: 0 4px 14px var(--pp-primary) / 0.3;
 }
 .pp-order-btn:disabled {
   @apply opacity-50 cursor-not-allowed translate-y-0;
@@ -255,22 +234,22 @@
   @apply flex flex-col items-center justify-center py-24 gap-4;
 }
 .pp-spinner {
-  @apply w-10 h-10 rounded-full animate-spin;
-  border: 3px solid oklch(0.9 0.03 100);
-  border-top-color: oklch(0.45 0.12 145);
+  @apply w-12 h-12 rounded-full animate-spin;
+  border: 3px solid var(--pp-border);
+  border-top-color: var(--pp-primary);
 }
 .pp-loading-text {
   @apply text-sm font-medium;
-  color: oklch(0.5 0.02 90);
+  color: var(--pp-text-sub);
 }
 
 .pp-error {
-  @apply max-w-md mx-auto my-12 p-6 rounded-2xl text-center;
+  @apply max-w-md mx-auto my-12 p-8 rounded-2xl text-center border;
   background: oklch(0.97 0.03 25);
-  border: 1px solid oklch(0.9 0.06 25);
+  border-color: oklch(0.9 0.06 25);
 }
 .pp-error-text {
-  @apply text-sm font-medium mb-3;
+  @apply text-sm font-medium mb-4;
   color: oklch(0.45 0.14 25);
 }
 .pp-error-retry {
@@ -283,26 +262,26 @@
 }
 
 .pp-empty {
-  @apply text-center py-16;
+  @apply text-center py-20;
 }
 .pp-empty-icon {
-  @apply text-5xl mb-4;
+  @apply text-6xl mb-4;
 }
 .pp-empty-title {
-  @apply text-lg font-bold mb-1;
-  color: oklch(0.3 0.02 90);
+  @apply text-2xl font-bold mb-2;
+  color: var(--pp-text);
 }
 .pp-empty-text {
-  @apply text-sm;
-  color: oklch(0.5 0.02 90);
+  @apply text-sm mb-6;
+  color: var(--pp-text-sub);
 }
 .pp-clear-btn {
-  @apply mt-3 text-sm font-semibold px-4 py-2 rounded-lg border-none cursor-pointer transition-colors duration-200;
-  background: oklch(0.88 0.06 140);
-  color: oklch(0.35 0.1 145);
+  @apply text-sm font-semibold px-6 py-2.5 rounded-lg border-none cursor-pointer transition-colors duration-200;
+  background: var(--pp-primary-l);
+  color: var(--pp-primary);
 }
 .pp-clear-btn:hover {
-  background: oklch(0.82 0.08 140);
+  background: var(--pp-primary-l) / 0.7;
 }
 
 /* ══════════════════════════════════════
@@ -310,12 +289,12 @@
    ══════════════════════════════════════ */
 .pp-modal-overlay {
   @apply fixed inset-0 z-50 flex items-center justify-center p-4;
-  background: oklch(0.15 0.02 90 / 0.6);
+  background: var(--pp-text) / 0.4;
   backdrop-filter: blur(6px);
 }
 .pp-modal {
   @apply relative w-full max-w-lg rounded-2xl overflow-hidden;
-  background: oklch(0.99 0.01 90);
+  background: var(--pp-surface);
   box-shadow: 0 24px 64px rgba(0, 0, 0, 0.15);
   animation: pp-modal-in 0.3s cubic-bezier(0.23, 1, 0.32, 1);
 }
@@ -331,122 +310,126 @@
 }
 .pp-modal-close {
   @apply absolute top-4 right-4 w-8 h-8 rounded-lg flex items-center justify-center border-none cursor-pointer transition-all duration-200 z-10;
-  background: oklch(0.93 0.02 90);
-  color: oklch(0.45 0.02 90);
+  background: var(--pp-primary-l);
+  color: var(--pp-primary);
 }
 .pp-modal-close:hover {
-  background: oklch(0.88 0.04 25);
-  color: oklch(0.4 0.14 25);
+  background: var(--pp-primary-l) / 0.7;
 }
 
 /* ══════════════════════════════════════
    PRODUCT FORM
    ══════════════════════════════════════ */
 .pp-form-card {
-  @apply p-6;
+  @apply p-8;
 }
 .pp-form-title {
-  @apply text-xl font-bold mb-5;
-  color: oklch(0.22 0.02 90);
+  @apply text-2xl font-bold mb-6;
+  color: var(--pp-text);
 }
 .pp-form {
-  @apply flex flex-col gap-4;
+  @apply flex flex-col gap-5;
 }
 .pp-form-group {
-  @apply flex flex-col gap-1.5;
+  @apply flex flex-col gap-2;
 }
 .pp-form-row {
-  @apply grid grid-cols-2 gap-4;
+  @apply grid grid-cols-2 gap-5;
 }
 .pp-label {
   @apply text-sm font-semibold;
-  color: oklch(0.35 0.02 90);
+  color: var(--pp-text);
 }
 .pp-input {
   @apply text-sm px-4 py-2.5 rounded-xl border outline-none transition-all duration-200;
-  background: rgba(255, 255, 255, 0.8);
-  border-color: oklch(0.9 0.03 100);
-  color: oklch(0.22 0.02 90);
+  background: var(--pp-glass);
+  border-color: var(--pp-border);
+  color: var(--pp-text);
+  backdrop-filter: blur(10px);
 }
 .pp-input::placeholder {
-  color: oklch(0.6 0.02 90);
+  color: var(--pp-text-sub);
 }
 .pp-input:focus {
-  border-color: oklch(0.65 0.1 145);
-  box-shadow: 0 0 0 3px oklch(0.88 0.06 140 / 0.4);
+  border-color: var(--pp-primary);
+  box-shadow: 0 0 0 3px var(--pp-primary-l) / 0.4;
 }
 .pp-textarea {
-  @apply resize-y min-h-[80px];
+  @apply resize-y min-h-[100px];
 }
 
 /* File upload */
 .pp-file-upload {
   @apply flex items-center justify-center rounded-xl border-2 border-dashed cursor-pointer transition-all duration-200 overflow-hidden;
-  border-color: oklch(0.88 0.03 100);
+  border-color: var(--pp-border);
   height: 160px;
-  background: oklch(0.97 0.01 90);
+  background: var(--pp-primary-l) / 0.3;
 }
 .pp-file-upload:hover {
-  border-color: oklch(0.7 0.08 145);
-  background: oklch(0.95 0.03 140);
+  border-color: var(--pp-primary);
+  background: var(--pp-primary-l) / 0.5;
 }
 .pp-file-preview {
   @apply w-full h-full object-cover;
 }
 .pp-file-placeholder {
   @apply flex flex-col items-center gap-2 text-sm font-medium;
-  color: oklch(0.55 0.02 90);
+  color: var(--pp-text-sub);
 }
 
 .pp-form-error {
-  @apply text-sm font-medium px-3 py-2 rounded-lg;
+  @apply text-sm font-medium px-4 py-3 rounded-lg;
   background: oklch(0.95 0.04 25);
   color: oklch(0.45 0.14 25);
 }
 
 .pp-form-actions {
-  @apply flex gap-3 mt-2;
+  @apply flex gap-3 mt-4;
 }
 .pp-submit-btn {
   @apply flex-1 px-4 py-2.5 rounded-xl text-sm font-semibold text-white border-none cursor-pointer transition-all duration-200;
-  background: oklch(0.45 0.12 145);
+  background: var(--pp-primary);
 }
 .pp-submit-btn:hover {
-  background: oklch(0.35 0.1 145);
-  box-shadow: 0 4px 14px oklch(0.45 0.12 145 / 0.3);
+  background: var(--pp-primary-d);
+  box-shadow: 0 4px 14px var(--pp-primary) / 0.3;
 }
 .pp-submit-btn:disabled {
   @apply opacity-50 cursor-not-allowed;
 }
 .pp-cancel-btn {
   @apply flex-1 px-4 py-2.5 rounded-xl text-sm font-semibold border-none cursor-pointer transition-all duration-200;
-  background: oklch(0.93 0.02 90);
-  color: oklch(0.35 0.02 90);
+  background: var(--pp-border);
+  color: var(--pp-text);
 }
 .pp-cancel-btn:hover {
-  background: oklch(0.88 0.03 90);
+  background: var(--pp-primary-l);
+  color: var(--pp-primary);
 }
 
 /* ══════════════════════════════════════
    RESPONSIVE
    ══════════════════════════════════════ */
 @media (max-width: 768px) {
+  .pp-container {
+    @apply px-6 py-8;
+  }
   .pp-header {
     @apply flex-col items-start gap-4;
   }
   .pp-toolbar {
-    @apply flex-col items-stretch;
+    @apply flex-col items-stretch gap-3;
   }
   .pp-search {
     @apply w-full;
   }
-  .pp-nav-links {
-    @apply gap-0;
-  }
-  .pp-nav-link {
-    @apply px-2 text-xs;
+  .pp-grid {
+    @apply grid-cols-1 md:grid-cols-2 gap-6;
   }
   .pp-form-row {
     @apply grid-cols-1;
+  }
+  .pp-title {
+    @apply text-2xl;
   }
 }

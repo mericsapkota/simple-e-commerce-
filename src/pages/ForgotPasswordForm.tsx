@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { authAPI } from "../services/authApi";
 
 // Define the validation schema with Zod
 const forgotPasswordSchema = z
@@ -44,10 +45,10 @@ const ForgotPasswordForm = () => {
       console.log("Password reset requested for:", data.email);
       console.log("New password set");
 
-      // Here you would typically call your API
-      // await resetPassword(data.email, data.password);
-
-      alert("Password reset link has been sent to your email!");
+      await authAPI.resetPassword(data.email, data.password);
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("user");
+      alert("Password reset successful! Please log in with your new password.");
     } catch (error) {
       console.error("Error resetting password:", error);
       alert("An error occurred. Please try again.");

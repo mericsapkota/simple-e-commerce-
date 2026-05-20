@@ -45,16 +45,10 @@ export const ProductsPage: React.FC = () => {
       {showCreateModal && user?.role === "ADMIN" && (
         <div className="pp-modal-overlay">
           <div className="pp-modal">
-            <button
-              onClick={() => setShowCreateModal(false)}
-              className="pp-modal-close"
-            >
+            <button onClick={() => setShowCreateModal(false)} className="pp-modal-close">
               <XMarkIcon className="h-5 w-5" />
             </button>
-            <ProductForm
-              onSubmit={handleCreateProduct}
-              onCancel={() => setShowCreateModal(false)}
-            />
+            <ProductForm onSubmit={handleCreateProduct} onCancel={() => setShowCreateModal(false)} />
           </div>
         </div>
       )}

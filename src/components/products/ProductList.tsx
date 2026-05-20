@@ -1,9 +1,10 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, use } from "react";
 import { useProductStore } from "../../store/productStore";
 import { ProductCard } from "./ProductCard";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { useAuthStore } from "../../store/authStore";
 import { useOrderStore } from "../../store/orderStore";
+import { getRole } from "../../services/authApi";
 
 type SortOption = "default" | "price-asc" | "price-desc" | "name-asc" | "name-desc";
 
@@ -13,13 +14,14 @@ export const ProductList: React.FC = () => {
   const { isInitialized } = useAuthStore();
   const orders = useOrderStore((state) => state.orders);
   const role = useAuthStore((state) => state.role);
-
+  const getRole = useAuthStore((state) => state.getRole);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<SortOption>("default");
 
   useEffect(() => {
     console.log(isInitialized, "isInitialized");
     fetchProducts();
+    getRole();
   }, []);
 
   useEffect(() => {
@@ -89,10 +91,7 @@ export const ProductList: React.FC = () => {
           </p>
         </div>
         {role === "ADMIN" && (
-          <button
-            onClick={() => setShowCreateModal(true)}
-            className="pp-add-btn"
-          >
+          <button onClick={() => setShowCreateModal(true)} className="pp-add-btn">
             <PlusIcon className="h-5 w-5" />
             Add Product
           </button>
@@ -108,11 +107,7 @@ export const ProductList: React.FC = () => {
       ) : (
         <div>
           <div className="pp-toolbar">
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as SortOption)}
-              className="pp-select"
-            >
+            <select value={sortBy} onChange={(e) => setSortBy(e.target.value as SortOption)} className="pp-select">
               <option value="default">Sort By</option>
               <option value="name-asc">Name: A → Z</option>
               <option value="name-desc">Name: Z → A</option>
@@ -122,7 +117,12 @@ export const ProductList: React.FC = () => {
 
             <div className="pp-search-wrap">
               <svg className="pp-search-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
               </svg>
               <input
                 type="text"

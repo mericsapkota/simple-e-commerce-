@@ -2,10 +2,18 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
 import { authAPI } from "../services/authApi";
-
+import { GoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 export const LoginForm: React.FC = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
+  // const { googleAuth, setGoogleAuth } = useAuthStore((state) => ({
+  //   googleAuth: state.googleAuth,
+  //   setGoogleAuth: state.setGoogleAuth,
+  // }));
+  const googleAuth = useAuthStore((state) => state.googleAuth);
+  const setGoogleAuth = useAuthStore((state) => state.setGoogleAuth);
+
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const login = useAuthStore((state) => state.login);
@@ -18,6 +26,12 @@ export const LoginForm: React.FC = () => {
       navigate("/dashboard");
     }
   }, [getRole, isLoggedIn, navigate]);
+
+  useEffect(() => {
+    if (googleAuth) {
+      axios.get("");
+    }
+  }, [googleAuth]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -89,6 +103,15 @@ export const LoginForm: React.FC = () => {
         <div className="text-center underline cursor-pointer" onClick={() => navigate("/signup")}>
           Register
         </div>
+        <GoogleLogin
+          onSuccess={(credentialResponse) => {
+            console.log(credentialResponse);
+            setGoogleAuth(credentialResponse);
+          }}
+          onError={() => {
+            console.log("Login Failed");
+          }}
+        />
       </div>
     </div>
   );

@@ -57,6 +57,19 @@ export const authAPI = {
     return response.me;
   },
 
+  resetPassword: async (email: string, newPassword: string): Promise<any> => {
+    const mutation = `
+    mutation ResetPassword($input: ResetPasswordInput!){
+    resetPassword(input: $input)
+  }`;
+
+    const variables = {
+      input: { email, newPassword },
+    };
+    const response = await graphqlClient.request(mutation, variables);
+    return response;
+  },
+
   getRole: async (): Promise<User> => {
     const query = `
       query GetCurrentUser {

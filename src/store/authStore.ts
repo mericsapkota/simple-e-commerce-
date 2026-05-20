@@ -7,6 +7,10 @@ interface AuthStore extends AuthState {
   login: (user: User, token: string) => void;
   logout: () => void;
   role: string;
+  googleAuth: object;
+  googleProfile: object;
+  setGoogleProfile: (googleProfile: object) => void;
+  setGoogleAuth: (googleAuth: object) => void;
   updateUser: (user: User) => void;
   initializeAuth: () => Promise<void>;
   isInitialized: boolean;
@@ -23,7 +27,11 @@ export const useAuthStore = create<AuthStore>((set) => ({
   isAuthenticated: false,
   isInitialized: false,
   role: "",
+  googleAuth: {},
+  googleProfile: {},
 
+  setGoogleProfile: (googleProfile: object) => set({ googleProfile }),
+  setGoogleAuth: (googleAuth: object) => set({ googleAuth }),
   initializeAuth: async () => {
     const token = localStorage.getItem("access_token");
     const user = localStorage.getItem("user");
