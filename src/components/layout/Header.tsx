@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
-import { ShoppingBag, Menu, X } from "lucide-react";
+import { useCartStore } from "../../store/cartStore";
+import { ShoppingBag, Menu, X, ShoppingCart } from "lucide-react";
 
 const Header = () => {
   const logout = useAuthStore((state) => state.logout);
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const cartItems = useCartStore((state) => state.getTotalItems());
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -33,7 +35,7 @@ const Header = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden md:flex items-center space-x-2">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
@@ -47,6 +49,17 @@ const Header = () => {
                 {link.label}
               </Link>
             ))}
+            <Link
+              to="/cart"
+              className="relative inline-flex items-center justify-center px-3 py-2 text-gray-600 hover:text-gray-900"
+            >
+              <ShoppingCart className="w-5 h-5" />
+              {cartItems > 0 && (
+                <span className="absolute top-2 right-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
+                  {cartItems}
+                </span>
+              )}
+            </Link>
             <button
               onClick={logout}
               className="bg-red-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-red-600 transition-colors"
@@ -83,6 +96,17 @@ const Header = () => {
                 {link.label}
               </Link>
             ))}
+            <Link
+              to="/cart"
+              onClick={closeMenu}
+              className="flex items-center px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+            >
+              <ShoppingCart className="w-5 h-5 mr-2" />
+              Cart{" "}
+              {cartItems > 0 && (
+                <span className="ml-2 bg-red-600 text-white px-2 rounded-full text-xs">{cartItems}</span>
+              )}
+            </Link>
             <button
               onClick={() => {
                 logout();

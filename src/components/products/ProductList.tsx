@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo, use } from "react";
 import { useProductStore } from "../../store/productStore";
 import { ProductCard } from "./ProductCard";
-import { PlusIcon } from "@heroicons/react/24/outline";
+import { MagnifyingGlassCircleIcon, MagnifyingGlassIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { useAuthStore } from "../../store/authStore";
 import { useOrderStore } from "../../store/orderStore";
 import { getRole } from "../../services/authApi";
@@ -115,22 +115,15 @@ export const ProductList: React.FC = () => {
               <option value="price-desc">Price: High → Low</option>
             </select>
 
-            <div className="pp-search-wrap">
-              <svg className="pp-search-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
+            <div className="pp-search-wrap relative">
+              <MagnifyingGlassIcon className="h-5 w-5 absolute z-10 top-2.5 left-3" />
               <input
                 type="text"
                 placeholder="Search products..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pp-search"
-              />
+              ></input>
             </div>
           </div>
 

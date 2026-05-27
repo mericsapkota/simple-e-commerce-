@@ -249,11 +249,12 @@
   border-color: var(--lp-border);
 }
 .lp-hero-card--main {
-  @apply p-6 w-[280px];
+  @apply p-6 w-[280px] m-2;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
 }
+
 .lp-card-chip {
-  @apply text-[.75rem] font-semibold mb-4;
+  @apply text-[.70rem] font-semibold mb-4;
   color: var(--lp-primary);
 }
 .lp-card-product {
@@ -279,15 +280,16 @@
 }
 .lp-hero-card--float1,
 .lp-hero-card--float2 {
-  @apply absolute px-4 py-[.6rem] text-[.8rem] font-semibold flex items-center gap-[.4rem];
+  @apply absolute px-4 py-[.7rem] text-[.8rem]  font-semibold flex items-center gap-[.4rem];
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
   animation: lp-bob 4s ease-in-out infinite;
 }
+
 .lp-hero-card--float1 {
-  @apply -top-5 -right-10;
+  @apply -top-5 -right-2 sm:-right-10;
 }
 .lp-hero-card--float2 {
-  @apply -bottom-[10px] -left-[30px];
+  @apply -bottom-5 -left-[2px] sm:-left-10;
   animation-delay: 2s;
 }
 
@@ -341,7 +343,7 @@
 
 /* ── Services ── */
 .lp-services {
-  @apply py-24 px-8;
+  @apply py-12 sm:py-24 sm:px-8;
   background: var(--lp-bg);
 }
 .lp-services-grid {

@@ -1,19 +1,12 @@
-import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { useMemo } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Minus, Plus, ShoppingCart, Trash2 } from "lucide-react";
 import Header from "../components/layout/Header";
-
-type CartItem = {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  imageUrl?: string;
-  variant?: string;
-};
+import { useCartStore } from "../store/cartStore";
 
 const CartPage = () => {
-  const [items, setItems] = useState<CartItem[]>([]);
+  const navigate = useNavigate();
+  const { items, updateQuantity, removeItem } = useCartStore();
 
   const summary = useMemo(() => {
     const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -22,14 +15,6 @@ const CartPage = () => {
     const total = subtotal + shipping + tax;
     return { subtotal, shipping, tax, total };
   }, [items]);
-
-  const updateQuantity = (id: string, nextQuantity: number) => {
-    setItems((prev) => prev.map((item) => (item.id === id ? { ...item, quantity: Math.max(1, nextQuantity) } : item)));
-  };
-
-  const removeItem = (id: string) => {
-    setItems((prev) => prev.filter((item) => item.id !== id));
-  };
 
   const formatPrice = (value: number) => `$${value.toFixed(2)}`;
 
@@ -99,6 +84,7 @@ const CartPage = () => {
                         <span className="w-10 text-center font-semibold text-gray-800">{item.quantity}</span>
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                          disabled={item.quantity >= item.totalQuantity}
                           className="p-2 text-gray-500 hover:text-gray-800"
                         >
                           <Plus className="h-4 w-4" />
@@ -131,7 +117,10 @@ const CartPage = () => {
                   <span className="font-semibold text-gray-900">{formatPrice(summary.total)}</span>
                 </div>
               </div>
-              <button className="mt-6 w-full bg-green-600 text-white font-semibold py-2.5 rounded-lg hover:bg-green-700">
+              <button
+                onClick={() => navigate("/checkout")}
+                className="mt-6 w-full bg-green-600 text-white font-semibold py-2.5 rounded-lg hover:bg-green-700 transition"
+              >
                 Proceed to Checkout
               </button>
               <p className="mt-3 text-xs text-gray-500 text-center">Secure checkout powered by Lumina</p>

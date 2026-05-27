@@ -13,6 +13,8 @@ import { ForgotPasswordPage } from "./pages/ForgotPasswordForm";
 import { Toaster } from "react-hot-toast";
 import LandingPage from "./pages/LandingPage";
 import CartPage from "./pages/CartPage";
+import CheckoutPage from "./pages/CheckoutPage";
+import Imagetestfile from "./pages/Imagetestfile";
 
 function App() {
   const { initializeAuth, isInitialized } = useAuthStore();
@@ -27,6 +29,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignupForm />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
@@ -62,7 +65,14 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="/" element={<LandingPage />} />
+          <Route
+            path="/checkout"
+            element={
+              <ProtectedRoute>
+                <CheckoutPage />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
       <AddOrderModal />

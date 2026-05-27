@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -6,6 +6,8 @@ import { useOrderStore } from "../../store/orderStore";
 import { useAuthStore } from "../../store/authStore";
 import type { CreateOrderInput, PaymentMethod } from "../../types/Ordertypes";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import toast from "react-hot-toast";
+import { createEsewaPaymentRequest, savePendingEsewaOrder, submitEsewaPayment } from "../../services/paymentApi";
 
 const PAYMENT_METHOD_VALUES = ["CASH_ON_DELIVERY", "CREDIT_CARD", "ESEWA", "KHALTI"] as const;
 
@@ -46,6 +48,9 @@ export default function AddOrderModal() {
     submitOrder,
     clearError,
   } = useOrderStore();
+  const [isEsewaRedirecting, setIsEsewaRedirecting] = useState(false);
+  const esewaSecretKey = import.meta.env.VITE_ESEWA_SECRET_KEY || "8gBm/:&EnhH.1/q";
+  const esewaProductCode = import.meta.env.VITE_ESEWA_PRODUCT_CODE || "EPAYTEST";
 
   console.log("img", selectedProductImageUrl);
   // Adjust this selector to match your authStore shape
@@ -83,17 +88,60 @@ export default function AddOrderModal() {
 
   if (!isAddOrderModalOpen) return null;
 
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = async (data: FormValues) => {
     if (!selectedProductId || !user?.id) return;
+    if (data.payment_method === "ESEWA") {
+      if (!esewaSecretKey) {
+        toast.error("Missing eSewa secret key configuration.");
+        return;
+      }
+
+      const amount = Number((unitPrice * Number(data.quantity || 0)).toFixed(2));
+      const taxAmount = 0;
+      const deliveryCharge = 0;
+
+      setIsEsewaRedirecting(true);
+      try {
+        const { request, transaction_uuid, total_amount } = await createEsewaPaymentRequest({
+          amount,
+          tax_amount: taxAmount,
+          product_delivery_charge: deliveryCharge,
+          product_code: esewaProductCode,
+          success_url: `${window.location.origin}/checkout`,
+          failure_url: `${window.location.origin}/checkout`,
+          secret_key: esewaSecretKey,
+        });
+
+        savePendingEsewaOrder({
+          items: [{ id: selectedProductId, quantity: Number(data.quantity) }],
+          shipping_address: data.shipping_address,
+          transaction_uuid,
+          total_amount,
+          tax_amount: taxAmount,
+          amount,
+          product_delivery_charge: deliveryCharge,
+          product_code: esewaProductCode,
+        });
+
+        submitEsewaPayment(request);
+      } catch (error: any) {
+        console.error("Esewa initiation error:", error);
+        toast.error(error?.message || "Failed to initiate eSewa payment.");
+      } finally {
+        setIsEsewaRedirecting(false);
+      }
+      return;
+    }
 
     const input: CreateOrderInput = {
       product_id: selectedProductId,
       quantity: Number(data.quantity),
       shipping_address: data.shipping_address,
       payment_method: data.payment_method,
+      payment_status: "PENDING",
     };
 
-    submitOrder(input);
+    await submitOrder(input);
   };
 
   return (
@@ -177,10 +225,13 @@ export default function AddOrderModal() {
           {/* Payment Method */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Payment Method</label>
-            <select className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-white">
+            <select
+              {...register("payment_method")}
+              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-white"
+            >
               {PAYMENT_METHODS.map((pm) => (
                 <option key={pm.value} value={pm.value}>
-                  {pm.label}
+                  {pm.value}
                 </option>
               ))}
             </select>
@@ -214,16 +265,16 @@ export default function AddOrderModal() {
             </button>
             <button
               type="submit"
-              disabled={isLoading}
+              disabled={isLoading || isEsewaRedirecting}
               className="flex-1 px-4 py-2 rounded-lg bg-blue-600 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
             >
-              {isLoading ? (
+              {isLoading || isEsewaRedirecting ? (
                 <>
                   <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
                   </svg>
-                  Placing...
+                  {isEsewaRedirecting ? "Redirecting..." : "Placing..."}
                 </>
               ) : (
                 "Place Order"

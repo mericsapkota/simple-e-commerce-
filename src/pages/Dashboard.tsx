@@ -4,6 +4,9 @@ import { useAuthStore } from "../store/authStore";
 import { useNavigate } from "react-router-dom";
 import { ArrowPathRoundedSquareIcon } from "@heroicons/react/24/outline";
 import { BookAIcon, BookIcon, DollarSign, Package2Icon, TvIcon, User, User2Icon } from "lucide-react";
+import { productAPI } from "../services/productApi";
+import { authAPI } from "../services/authApi";
+import { getAllOrders, getMyOrders } from "../services/orderApi";
 
 interface DashboardStats {
   totalProducts?: number;
@@ -19,29 +22,46 @@ export const Dashboard = () => {
   const navigate = useNavigate();
   const [stats, setStats] = useState<DashboardStats>({});
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchDashboardStats();
-  }, []);
+  const [error, setError] = useState<string | null>(null);
+  const [allUserCount, setAllUserCount] = useState<number>(0);
 
   const fetchDashboardStats = async () => {
     try {
       setLoading(true);
-      // Mock data - replace with actual API calls
+      setError(null);
+      const isAdmin = user?.role?.toLowerCase() === "admin";
+      const [products, orders] = await Promise.all([
+        productAPI.getProducts(),
+        isAdmin ? getAllOrders() : getMyOrders(),
+      ]);
+      const setAllUserCount = isAdmin ? await authAPI.getAllUsers().then((users) => users.length) : 0;
+      const totalRevenue = orders.reduce((sum, order) => sum + (Number(order.total_amount) || 0), 0);
+      const pendingOrders = orders.filter((order) => order.status === "PENDING").length;
+      const completedOrders = orders.filter((order) => order.status === "DELIVERED").length;
+      const uniqueUsers = setAllUserCount;
+
       setStats({
-        totalProducts: 24,
-        totalOrders: 156,
-        totalRevenue: 45300,
-        totalUsers: 89,
-        pendingOrders: 12,
-        completedOrders: 144,
+        totalProducts: products.length,
+        totalOrders: orders.length,
+        totalRevenue,
+        totalUsers: uniqueUsers,
+        pendingOrders,
+        completedOrders,
       });
-    } catch (error) {
-      console.error("Failed to fetch dashboard stats:", error);
+    } catch (err: any) {
+      setError(err?.response?.errors?.[0]?.message || err?.message || "Failed to fetch dashboard stats");
     } finally {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    if (!user) {
+      setLoading(false);
+      setStats({});
+      return;
+    }
+    fetchDashboardStats();
+  }, [user?.id, user?.role]);
 
   const StatCard = ({
     title,
@@ -275,6 +295,11 @@ export const Dashboard = () => {
       <Header />
       <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
+          {error && !loading && (
+            <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+              {error}
+            </div>
+          )}
           {loading ? (
             <div className="flex justify-center items-center h-64">
               <div className="text-xl text-gray-600">Loading dashboard...</div>

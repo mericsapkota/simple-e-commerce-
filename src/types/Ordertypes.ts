@@ -1,5 +1,6 @@
 export type OrderStatus = "PENDING" | "PROCESSING" | "SHIPPED" | "DELIVERED" | "CANCELLED";
 export type PaymentMethod = "CASH_ON_DELIVERY" | "CREDIT_CARD" | "ESEWA" | "KHALTI";
+export type PaymentStatus = "FAILED" | "PAID" | "PENDING";
 
 export interface OrderItem {
   id: string;
@@ -22,6 +23,7 @@ export interface Order {
   status: OrderStatus;
   shipping_address: string;
   payment_method: PaymentMethod;
+  payment_status: PaymentStatus;
   created_at: string;
   updated_at: string;
   order_items?: OrderItem[];
@@ -30,6 +32,7 @@ export interface Order {
 export interface CreateOrderInput {
   shipping_address: string;
   payment_method: PaymentMethod;
+  payment_status: PaymentStatus;
   product_id: string;
   quantity: number;
 }
@@ -38,6 +41,7 @@ export interface UpdateOrderInput {
   id: string;
   shipping_address?: string;
   payment_method?: PaymentMethod;
+  payment_status?: PaymentStatus;
   status?: OrderStatus;
   quantity?: number;
 }

@@ -21,6 +21,7 @@ export const CREATE_ORDER_MUTATION = gql`
       status
       shipping_address
       payment_method
+      payment_status
       created_at
       updated_at
       order_items {
@@ -45,6 +46,7 @@ export const GET_MY_ORDERS_QUERY = gql`
       status
       shipping_address
       payment_method
+      payment_status
       created_at
       order_items {
         quantity
@@ -70,6 +72,7 @@ export const GET_ORDER_BY_ID_QUERY = gql`
       status
       shipping_address
       payment_method
+      payment_status
       created_at
       updated_at
       order_items {
@@ -95,6 +98,9 @@ const getAllOrdersMutatioin = gql`
   query GetAllOrders {
     getAllOrders {
       id
+      user {
+        id
+      }
       order_items {
         product {
           image
@@ -106,6 +112,7 @@ const getAllOrdersMutatioin = gql`
       updated_at
       shipping_address
       payment_method
+      payment_status
       total_amount
     }
   }
@@ -120,6 +127,7 @@ export const DELETE_ORDER_MUTATION = gql`
       status
       shipping_address
       payment_method
+      payment_status
       created_at
       order_items {
         quantity
@@ -159,6 +167,7 @@ export const createOrder = async (input: CreateOrderInput): Promise<Order> => {
     input: {
       shipping_address: input.shipping_address,
       payment_method: input.payment_method,
+      // payment_status: input.payment_status,
       order_items: [
         {
           product_id: input.product_id,

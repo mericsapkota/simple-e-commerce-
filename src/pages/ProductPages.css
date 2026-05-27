@@ -176,7 +176,7 @@
   line-height: 1.6;
 }
 .pp-card-footer {
-  @apply flex items-end justify-between gap-3;
+  @apply flex items-end  gap-3;
 }
 .pp-card-price-wrap {
   @apply flex flex-col;
@@ -191,9 +191,6 @@
 }
 
 /* Card actions */
-.pp-card-actions {
-  @apply flex items-center gap-2;
-}
 .pp-icon-btn {
   @apply w-9 h-9 rounded-lg flex items-center justify-center border-none cursor-pointer transition-all duration-200;
 }

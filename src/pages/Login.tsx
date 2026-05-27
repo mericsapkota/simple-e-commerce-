@@ -7,10 +7,7 @@ import axios from "axios";
 export const LoginForm: React.FC = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
-  // const { googleAuth, setGoogleAuth } = useAuthStore((state) => ({
-  //   googleAuth: state.googleAuth,
-  //   setGoogleAuth: state.setGoogleAuth,
-  // }));
+
   const googleAuth = useAuthStore((state) => state.googleAuth);
   const setGoogleAuth = useAuthStore((state) => state.setGoogleAuth);
 
