@@ -29,7 +29,7 @@ export default function LandingPage() {
   const [scrollY, setScrollY] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
-
+  const [date, setDate] = useState(new Date());
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -315,10 +315,12 @@ export default function LandingPage() {
       <footer className="lp-footer">
         <div className="lp-footer-inner">
           <div className="lp-logo">
-            <span className="lp-logo-icon">✦</span>
+            <span className="lp-logo-icon"></span>
             <span className="lp-logo-text">Lumina</span>
           </div>
-          <p className="lp-footer-copy">© 2026 Lumina. Crafted with care for a better shopping world.</p>
+          <p className="lp-footer-copy">
+            © {date.getFullYear()} Lumina. Crafted with care for a better shopping world.
+          </p>
           <div className="lp-footer-links">
             <Link to="/login" className="lp-footer-link">
               Login
