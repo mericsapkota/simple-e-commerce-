@@ -67,7 +67,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <p className="pp-card-desc">{product.description}</p>
         <div className="pp-card-footer">
           <div className="pp-card-price-wrap">
-            <span className="pp-card-price">${product.price.toFixed(2)}</span>
+            <span className="pp-card-price">NRP{product.price.toFixed(2)}</span>
             <span className="pp-card-stock">{product.quantity > 0 ? `${product.quantity} in stock` : "Sold out"}</span>
           </div>
         </div>
