@@ -106,7 +106,7 @@ export const Dashboard = () => {
         <StatCard title="Total Orders" value={stats.totalOrders || 0} icon={<BookIcon />} color="border-green-500" />
         <StatCard
           title="Total Revenue"
-          value={`$${stats.totalRevenue?.toLocaleString() || 0}`}
+          value={`NRP${stats.totalRevenue?.toLocaleString() || 0}`}
           icon={<DollarSign className="h-8 w-8" />}
           color="border-yellow-500"
         />
@@ -210,7 +210,7 @@ export const Dashboard = () => {
         />
         <StatCard
           title="Total Spent"
-          value={`$${stats.totalRevenue?.toLocaleString() || 0}`}
+          value={`NPR${stats.totalRevenue?.toLocaleString() || 0}`}
           icon={<DollarSign className="h-8 w-8" />}
           color="border-green-500"
         />

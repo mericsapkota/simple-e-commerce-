@@ -16,7 +16,7 @@ const CartPage = () => {
     return { subtotal, shipping, tax, total };
   }, [items]);
 
-  const formatPrice = (value: number) => `$${value.toFixed(2)}`;
+  const formatPrice = (value: number) => `NPR${value.toFixed(2)}`;
 
   return (
     <div className="min-h-screen bg-gray-100">
