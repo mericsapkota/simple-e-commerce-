@@ -148,7 +148,7 @@ const UserOrderView = ({ orders, loading }: Props) => {
                     </div>
                     <div>
                       <p className="text-xs text-gray-500 uppercase tracking-wide">Total Amount</p>
-                      <p className="text-2xl font-bold text-gray-800">${order.total_amount?.toFixed(2)}</p>
+                      <p className="text-2xl font-bold text-gray-800">NPR{order.total_amount?.toFixed(2)}</p>
                     </div>
                   </div>
 

@@ -16,6 +16,8 @@ import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import Imagetestfile from "./pages/Imagetestfile";
 
+import SongMatchApp from "./components/test";
+
 function App() {
   const { initializeAuth, isInitialized } = useAuthStore();
 
@@ -67,6 +69,9 @@ function App() {
             }
           />
         </Routes>
+        {/* <Routes>
+          <Route path="/" element={<SongMatchApp />} />
+        </Routes> */}
       </BrowserRouter>
       <AddOrderModal />
       <Toaster position="top-right" />

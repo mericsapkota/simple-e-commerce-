@@ -177,7 +177,7 @@ const AdminOrderView = ({
                             whileHover={{ scale: 1.05 }}
                             className="text-2xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent"
                           >
-                            ${order.total_amount}
+                            NPR{order.total_amount}
                           </motion.span>
                         </div>
                       </div>
